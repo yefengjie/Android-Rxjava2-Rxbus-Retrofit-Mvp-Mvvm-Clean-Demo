@@ -1,0 +1,88 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+ext {
+    //app
+    androidApplicationId = "com.yefeng.appcreator"
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    //Android
+    androidBuildToolsVersion = "25.0.2"
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+
+    //Libraries
+    // android
+    androidSupportVersion = '25.1.0'
+    // google
+    gsonVersion = '2.6.2'
+    guavaVersion = '21.0'
+    // square
+    retrofitVersion = '2.1.0'
+    okhttpVersion = '3.4.1'
+    okioVersion = '1.10.0'
+    retrofit2Rxjava2AdapterVersion = '1.0.0'
+    httplogVersion = '3.5.0'
+    // rx java
+    rxandroidVersion = '2.0.1'
+    rxjavaVersion = '2.0.1'
+    // green robot
+    greendaoVersion = '3.2.0'
+    // android annotations
+    aaVersion = '4.2.0'
+    // master
+    timberVersion = '4.5.0'
+    glideVersion = '3.7.0'
+
+    //Test
+    junitVersion = '4.12'
+    espressoVersion = '2.2.2'
+
+    supportDependencies = [
+            // android
+            appcompat_v7             : "com.android.support:appcompat-v7:$androidSupportVersion",
+            design                   : "com.android.support:design:$androidSupportVersion",
+
+            // google
+            guava                    : "com.google.guava:guava:$guavaVersion",
+            gson                     : "com.google.code.gson:gson:$gsonVersion",
+
+            // square
+            okhttp                   : "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            okio                     : "com.squareup.okio:okio:$okioVersion",
+            retrofit                 : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofit2_rxjava2_adapter: "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit2Rxjava2AdapterVersion",
+            converter_gson           : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            http_log                 : "com.squareup.okhttp3:logging-interceptor:$httplogVersion",
+
+            // rx java
+            rxandroid                : "io.reactivex.rxjava2:rxandroid:$rxandroidVersion",
+            rxjava                   : "io.reactivex.rxjava2:rxjava:$rxjavaVersion",
+
+            // green robot
+            greendao                 : "org.greenrobot:greendao:$greendaoVersion",
+
+            // android annotations
+            aa                       : "org.androidannotations:androidannotations:$aaVersion",
+            aa_api                   : "org.androidannotations:androidannotations-api:$aaVersion",
+
+            // master
+            glide                    : "com.github.bumptech.glide:glide:$glideVersion",
+            timber                   : "com.jakewharton.timber:timber:$timberVersion",
+
+    ]
+
+    supportTestDependencies = [
+            junit   : "junit:junit:$junitVersion",
+            espresso: "com.android.support.test.espresso:espresso-core:$espressoVersion",
+    ]
+
+}
