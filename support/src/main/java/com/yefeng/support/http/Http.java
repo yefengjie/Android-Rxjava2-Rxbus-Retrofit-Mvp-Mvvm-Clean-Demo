@@ -13,7 +13,7 @@ public class Http {
     /**
      * local host for test
      */
-    public static final String DEFAULT_HOST = "http://192.168.20.217:8000";
+    public static final String DEFAULT_HOST = "http://192.168.20.105:8000";
     public static final String DEFAULT_API_VERSION = "/api/v1/";
     private static final int DEFAULT_TIME_OUT = 30;
     private static String CURRENT_HOST;
