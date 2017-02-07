@@ -92,9 +92,11 @@ android {
 }
 
 dependencies {
-    def dependencies = rootProject.ext.supportDependencies
+    def testDependencies = rootProject.ext.testDependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':support')
-    // green robot
-    compile dependencies.greendao
+    androidTestCompile(testDependencies.espresso, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile testDependencies.junit
 }

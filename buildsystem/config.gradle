@@ -46,7 +46,7 @@ ext {
     junitVersion = '4.12'
     espressoVersion = '2.2.2'
 
-    supportDependencies = [
+    dependencies = [
             // android
             appcompat_v7             : "com.android.support:appcompat-v7:$androidSupportVersion",
             design                   : "com.android.support:design:$androidSupportVersion",
@@ -80,7 +80,7 @@ ext {
 
     ]
 
-    supportTestDependencies = [
+    testDependencies = [
             junit   : "junit:junit:$junitVersion",
             espresso: "com.android.support.test.espresso:espresso-core:$espressoVersion",
     ]

@@ -32,8 +32,8 @@ android {
 }
 
 dependencies {
-    def dependencies = rootProject.ext.supportDependencies
-    def testDependencies = rootProject.ext.supportTestDependencies
+    def dependencies = rootProject.ext.dependencies
+    def testDependencies = rootProject.ext.testDependencies
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile(testDependencies.espresso, {
@@ -52,6 +52,8 @@ dependencies {
     // rx java
     compile dependencies.rxjava
     compile dependencies.rxandroid
+    // green robot
+    compile dependencies.greendao
     // square
     compile dependencies.okhttp
     compile dependencies.okio
