@@ -20,9 +20,9 @@ import server.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/getSampleBooks$', server.views.getSampleBooks),
-    url(r'^api/v1/getSampleBook$', server.views.getSampleBook),
-    url(r'^api/v1/saveSampleBook$', server.views.saveSampleBook),
-    url(r'^api/v1/deleteSampleBooks', server.views.deleteSampleBooks),
-    url(r'^api/v1/deleteSampleBook$', server.views.deleteSampleBook),
+    url(r'^api/v1/getBooks$', server.views.getSampleBooks),
+    url(r'^api/v1/getBook$', server.views.getSampleBook),
+    url(r'^api/v1/saveBook$', server.views.saveSampleBook),
+    url(r'^api/v1/deleteBooks', server.views.deleteSampleBooks),
+    url(r'^api/v1/deleteBook$', server.views.deleteSampleBook),
 ]

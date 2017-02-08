@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.yefeng.support.BuildConfig;
-import com.yefeng.support.DebugLog;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +11,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by yefeng on 21/01/2017.
@@ -34,7 +34,7 @@ public class HttpRetrofit {
     }
 
     public Retrofit getRetrofit() {
-        DebugLog.logThread("getRetrofit", Thread.currentThread().getName(), Thread.currentThread().getId());
+        Timber.d("method: %s, thread: %s_%s", "getRetrofit()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null == mRetrofit) {
             OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
             // print log

@@ -4,13 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookDataSource;
-import com.yefeng.support.DebugLog;
 import com.yefeng.support.http.HttpResFunction;
 import com.yefeng.support.http.HttpRetrofit;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import timber.log.Timber;
 
 /**
  * Created by yefeng on 06/02/2017.
@@ -18,13 +18,13 @@ import io.reactivex.Flowable;
 
 public class BookRemoteDataSource implements BookDataSource {
 
-    private BookApi getApi() {
+    public BookApi getApi() {
         return HttpRetrofit.getInstance().getService(BookApi.class);
     }
 
     @Override
     public Flowable<List<Book>> getBooks() {
-        DebugLog.logThread("getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
+        Timber.d("method: %s, thread: %s_%s", "getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return getApi().getBooks().map(new HttpResFunction<>());
     }
 

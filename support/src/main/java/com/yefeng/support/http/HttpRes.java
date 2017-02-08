@@ -34,4 +34,13 @@ public class HttpRes<T> {
     }
 
     private T data;
+
+    @Override
+    public String toString() {
+        return "HttpRes{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

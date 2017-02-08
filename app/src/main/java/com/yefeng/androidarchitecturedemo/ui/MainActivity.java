@@ -12,7 +12,6 @@ import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
-import com.yefeng.support.DebugLog;
 import com.yefeng.support.http.HttpSchedulersTransformer;
 
 import org.reactivestreams.Subscriber;
@@ -43,10 +42,37 @@ public class MainActivity extends AppCompatActivity {
         BookRepository br = BookRepository.getInstance(new BookRemoteDataSource(), new BookLocalDataSource(), new BookMemoryDataSource());
         br.getBooks()
                 .compose(new HttpSchedulersTransformer<>())
-                .doOnSubscribe(subscription -> {
-                    DebugLog.logThread("doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                    mPd.show();
-                })
+                .doOnSubscribe(subscription -> mPd.show())
+                .subscribe(books -> {
+                    Timber.e(books.toString());
+                    Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                }, Timber::e, () -> mPd.dismiss());
+    }
+
+    private void testLocalData() {
+        new BookLocalDataSource().getBooks()
+                .compose(new HttpSchedulersTransformer<>())
+                .doOnSubscribe(subscription -> mPd.show())
+                .subscribe(books -> {
+                    Timber.e(books.toString());
+                    Timber.d("method: %s, thread: %s_%s", "testLocalData()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                }, Timber::e, () -> mPd.dismiss());
+    }
+
+    private void testMemoryData() {
+        new BookMemoryDataSource().getBooks()
+                .compose(new HttpSchedulersTransformer<>())
+                .doOnSubscribe(subscription -> mPd.show())
+                .subscribe(books -> {
+                    Timber.e(books.toString());
+                    Timber.d("method: %s, thread: %s_%s", "testMemoryData()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                }, Timber::e, () -> mPd.dismiss());
+    }
+
+    private void testRemoteData() {
+        new BookRemoteDataSource().getBooks()
+                .compose(new HttpSchedulersTransformer<>())
+                .doOnSubscribe(subscription -> mPd.show())
                 .subscribe(new Subscriber<List<Book>>() {
                     @Override
                     public void onSubscribe(Subscription s) {
@@ -56,17 +82,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<Book> books) {
                         Timber.e(books.toString());
-                        DebugLog.logThread("onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                        Timber.d("method: %s, thread: %s_%s", "testRemoteData()", Thread.currentThread().getName(), Thread.currentThread().getId());
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        DebugLog.logThread("onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                        mPd.dismiss();
+                        Timber.e(t);
                     }
 
                     @Override
                     public void onComplete() {
-                        DebugLog.logThread("onCompleted()", Thread.currentThread().getName(), Thread.currentThread().getId());
                         mPd.dismiss();
                     }
                 });

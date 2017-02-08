@@ -6,7 +6,6 @@ import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.model.book.BookDao;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.db.DbGreen;
-import com.yefeng.support.DebugLog;
 
 import java.util.List;
 
@@ -20,19 +19,13 @@ import timber.log.Timber;
 public class BookLocalDataSource implements BookDataSource {
 
     private BookDao getBookDao() {
+        Timber.d("method: %s, thread: %s_%s", "getBookDao()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return DbGreen.getInstance().getDaoSession().getBookDao();
     }
 
     @Override
     public Flowable<List<Book>> getBooks() {
-        try {
-            Timber.d("test log: sleep from db");
-            DebugLog.logThread("getSampleBooks", Thread.currentThread().getName(), Thread.currentThread().getId());
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return Flowable.just(getBookDao().loadAll());
+        return Flowable.fromCallable(() -> getBookDao().loadAll());
     }
 
     @Override

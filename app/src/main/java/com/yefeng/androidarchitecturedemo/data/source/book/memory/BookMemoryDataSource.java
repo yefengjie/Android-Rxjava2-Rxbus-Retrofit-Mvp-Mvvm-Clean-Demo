@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookDataSource;
-import com.yefeng.support.DebugLog;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,25 +25,19 @@ public class BookMemoryDataSource implements BookDataSource {
 
     @Override
     public Flowable<List<Book>> getBooks() {
-        try {
-            Timber.d("test log: sleep from memory");
-            DebugLog.logThread("getSampleBooks", Thread.currentThread().getName(), Thread.currentThread().getId());
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return Flowable.just(getMemoryBooks().values()).map(new Function<Collection<Book>, List<Book>>() {
-            @Override
-            public List<Book> apply(Collection<Book> books) throws Exception {
-                List list;
-                if (books instanceof List) {
-                    list = (List) books;
-                } else {
-                    list = new ArrayList(books);
-                }
-                return list;
-            }
-        });
+        //todo remove test memory
+        Book book = new Book(100, "title", "pic");
+        getMemoryBooks().put(100L, book);
+        return Flowable.just(getMemoryBooks().values())
+                .map((Function<Collection<Book>, List<Book>>) books -> {
+                    List list;
+                    if (books instanceof List) {
+                        list = (List) books;
+                    } else {
+                        list = new ArrayList(books);
+                    }
+                    return list;
+                });
     }
 
     @Override
@@ -84,6 +77,7 @@ public class BookMemoryDataSource implements BookDataSource {
     }
 
     private Map<Long, Book> getMemoryBooks() {
+        Timber.d("method: %s, thread: %s_%s", "getMemoryBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null == mBooks) {
             mBooks = new HashMap<>();
         }

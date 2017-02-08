@@ -33,7 +33,7 @@ ext {
     httplogVersion = '3.5.0'
     // rx java
     rxandroidVersion = '2.0.1'
-    rxjavaVersion = '2.0.1'
+    rxjavaVersion = '2.0.5'
     // green robot
     greendaoVersion = '3.2.0'
     // android annotations
