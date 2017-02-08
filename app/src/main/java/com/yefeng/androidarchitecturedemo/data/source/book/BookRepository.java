@@ -65,8 +65,8 @@ public class BookRepository implements BookDataSource {
     private Flowable<List<Book>> getAndSaveRemoteBooks() {
         return mBookRemoteDataSource.getBooks()
                 .doOnNext(books -> {
-                    mBookLocalDataSource.saveBooks(books);
                     mBookMemoryDataSource.saveBooks(books);
+                    mBookLocalDataSource.saveBooks(books);
                 });
     }
 

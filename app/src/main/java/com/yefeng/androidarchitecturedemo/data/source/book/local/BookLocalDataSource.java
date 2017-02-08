@@ -36,12 +36,12 @@ public class BookLocalDataSource implements BookDataSource {
 
     @Override
     public Flowable saveBook(@NonNull Book book) {
-        getBookDao().save(book);
+        getBookDao().insertOrReplace(book);
         return Flowable.empty();
     }
 
     public Flowable saveBooks(@NonNull List<Book> books) {
-        getBookDao().saveInTx(books);
+        getBookDao().insertOrReplaceInTx(books);
         return Flowable.empty();
     }
 
