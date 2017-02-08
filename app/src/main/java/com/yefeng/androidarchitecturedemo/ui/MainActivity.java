@@ -19,6 +19,9 @@ import org.reactivestreams.Subscription;
 
 import java.util.List;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,12 +44,45 @@ public class MainActivity extends AppCompatActivity {
     private void test() {
         BookRepository br = BookRepository.getInstance(new BookRemoteDataSource(), new BookLocalDataSource(), new BookMemoryDataSource());
         br.getBooks()
-                .compose(new HttpSchedulersTransformer<>())
-                .doOnSubscribe(subscription -> mPd.show())
-                .subscribe(books -> {
-                    Timber.e(books.toString());
-                    Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                }, Timber::e, () -> mPd.dismiss());
+//                .compose(new HttpSchedulersTransformer<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription -> {
+                    Timber.d("doOnSubscribe()");
+                    mPd.show();
+                })
+//                .subscribe(books -> {
+//                    Timber.d("onNext()");
+//                    Timber.e(books.toString());
+//                    Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+//                }, Timber::e, () -> {
+//                    Timber.d("onComplete()");
+//                    mPd.dismiss();
+//                });
+                .subscribe(new Subscriber<List<Book>>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(List<Book> books) {
+                        Timber.d("onNext()");
+                        Timber.e(books.toString());
+                        Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Timber.e(t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Timber.d("onComplete()");
+                        mPd.dismiss();
+                    }
+                });
     }
 
     private void testLocalData() {

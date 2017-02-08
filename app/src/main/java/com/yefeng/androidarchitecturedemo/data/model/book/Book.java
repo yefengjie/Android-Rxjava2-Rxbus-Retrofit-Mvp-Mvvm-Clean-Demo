@@ -10,11 +10,11 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Book {
     @Id
-    private long id;
+    private Long id;
     private String title;
     private String pic;
-    @Generated(hash = 871584913)
-    public Book(long id, String title, String pic) {
+    @Generated(hash = 1387555794)
+    public Book(Long id, String title, String pic) {
         this.id = id;
         this.title = title;
         this.pic = pic;
@@ -22,10 +22,10 @@ public class Book {
     @Generated(hash = 1839243756)
     public Book() {
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getTitle() {

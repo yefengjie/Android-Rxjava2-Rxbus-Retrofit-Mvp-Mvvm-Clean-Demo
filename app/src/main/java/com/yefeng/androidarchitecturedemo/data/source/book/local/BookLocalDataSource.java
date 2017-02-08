@@ -25,6 +25,7 @@ public class BookLocalDataSource implements BookDataSource {
 
     @Override
     public Flowable<List<Book>> getBooks() {
+        Timber.d("method: %s, thread: %s_%s", "getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return Flowable.fromCallable(() -> getBookDao().loadAll());
     }
 

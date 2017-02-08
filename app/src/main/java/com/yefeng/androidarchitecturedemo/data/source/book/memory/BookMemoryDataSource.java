@@ -26,18 +26,26 @@ public class BookMemoryDataSource implements BookDataSource {
     @Override
     public Flowable<List<Book>> getBooks() {
         //todo remove test memory
-        Book book = new Book(100, "title", "pic");
+        Book book = new Book(100L, "title", "pic");
         getMemoryBooks().put(100L, book);
-        return Flowable.just(getMemoryBooks().values())
-                .map((Function<Collection<Book>, List<Book>>) books -> {
-                    List list;
-                    if (books instanceof List) {
-                        list = (List) books;
-                    } else {
-                        list = new ArrayList(books);
-                    }
-                    return list;
-                });
+//        return Flowable.fromCallable(() -> getMemoryBooks().values()).map((Function<Collection<Book>, List<Book>>) books -> {
+//            List list;
+//            if (books instanceof List) {
+//                list = (List) books;
+//            } else {
+//                list = new ArrayList(books);
+//            }
+//            return list;
+//        });
+        return Flowable.just(getMemoryBooks().values()).map((Function<Collection<Book>, List<Book>>) books -> {
+            List list;
+            if (books instanceof List) {
+                list = (List) books;
+            } else {
+                list = new ArrayList(books);
+            }
+            return list;
+        });
     }
 
     @Override

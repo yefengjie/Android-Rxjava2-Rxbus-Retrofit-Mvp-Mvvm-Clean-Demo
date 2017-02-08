@@ -54,8 +54,7 @@ public class BookRepository implements BookDataSource {
      */
     @Override
     public Flowable<List<Book>> getBooks() {
-        return Flowable.concat(mBookMemoryDataSource.getBooks(), getAndCacheLocalBooks(), getAndSaveRemoteBooks())
-                .take(20);
+        return Flowable.concat(mBookMemoryDataSource.getBooks(), getAndCacheLocalBooks(), getAndSaveRemoteBooks());
     }
 
     private Flowable<List<Book>> getAndCacheLocalBooks() {
