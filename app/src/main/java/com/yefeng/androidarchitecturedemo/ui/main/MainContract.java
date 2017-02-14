@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui;
+package com.yefeng.androidarchitecturedemo.ui.main;
 
 import android.support.annotation.NonNull;
 
