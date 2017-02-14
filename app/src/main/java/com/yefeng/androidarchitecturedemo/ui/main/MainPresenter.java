@@ -76,6 +76,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void unsubscribe() {
+        mMainView.onLoadFinish();
         mCompositeDisposable.clear();
     }
 }
