@@ -10,6 +10,7 @@ import org.greenrobot.greendao.database.Database;
 
 /**
  * Created by yefeng on 07/02/2017.
+ * green db
  */
 
 public class DbGreen {

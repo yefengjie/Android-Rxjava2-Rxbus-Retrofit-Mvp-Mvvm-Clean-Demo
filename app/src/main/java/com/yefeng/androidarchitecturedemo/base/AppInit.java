@@ -12,6 +12,7 @@ import timber.log.Timber;
 
 /**
  * Created by yefeng on 07/02/2017.
+ * app initialize
  */
 
 public class AppInit {
