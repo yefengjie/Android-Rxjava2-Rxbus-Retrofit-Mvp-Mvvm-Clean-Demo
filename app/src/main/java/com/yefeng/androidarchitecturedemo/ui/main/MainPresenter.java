@@ -28,6 +28,7 @@ public class MainPresenter implements MainContract.Presenter {
         mMainView.setPresenter(this);
     }
 
+
     @Override
     public List<Book> getBooks() {
         return null;
@@ -51,6 +52,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public Void deleteBook(@NonNull String id) {
         return null;
+    }
+
+    @Override
+    public void loadBooks(boolean forceUpdate) {
+
     }
 
     @Override

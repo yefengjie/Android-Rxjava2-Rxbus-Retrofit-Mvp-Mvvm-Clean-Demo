@@ -37,7 +37,7 @@ public class AppInit {
                 .addHeader("Accept-Encoding", "gzip, deflate")
                 .addParam("appVersion", AppInfo.appVersion)
                 .addParam("appName", AppInfo.appName);
-        
+
         // init green db
         DbGreen.getInstance().init(app);
     }

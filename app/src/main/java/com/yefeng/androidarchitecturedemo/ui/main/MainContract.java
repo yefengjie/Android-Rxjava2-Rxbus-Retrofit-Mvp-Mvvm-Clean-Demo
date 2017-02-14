@@ -22,6 +22,8 @@ public class MainContract {
         Void deleteBooks();
 
         Void deleteBook(@NonNull String id);
+
+        void loadBooks(boolean forceUpdate);
     }
 
     interface View extends BaseView<Presenter> {
