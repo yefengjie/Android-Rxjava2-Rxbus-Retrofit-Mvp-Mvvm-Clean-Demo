@@ -54,6 +54,8 @@ dependencies {
     compile dependencies.rxandroid
     // green robot
     compile dependencies.greendao
+    //yf recycler view
+    compile dependencies.yf_list_recycler_view
     // square
     compile dependencies.okhttp
     compile dependencies.okio

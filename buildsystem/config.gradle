@@ -9,8 +9,8 @@ allprojects {
 ext {
     //app
     androidApplicationId = "com.yefeng.appcreator"
-    androidVersionCode = 1
-    androidVersionName = "1.0"
+    androidVersionCode = 100
+    androidVersionName = "1.0.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
     //Android
@@ -41,6 +41,7 @@ ext {
     // master
     timberVersion = '4.5.0'
     glideVersion = '3.7.0'
+    yfListRecyclerView = '1.1.0'
 
     //Test
     junitVersion = '4.12'
@@ -50,6 +51,7 @@ ext {
             // android
             appcompat_v7             : "com.android.support:appcompat-v7:$androidSupportVersion",
             design                   : "com.android.support:design:$androidSupportVersion",
+            recyclerview             : "com.android.support:recyclerview-v7:$androidSupportVersion",
 
             // google
             guava                    : "com.google.guava:guava:$guavaVersion",
@@ -77,6 +79,7 @@ ext {
             // master
             glide                    : "com.github.bumptech.glide:glide:$glideVersion",
             timber                   : "com.jakewharton.timber:timber:$timberVersion",
+            yf_list_recycler_view    : "com.yefeng:yf_list_recycler_view:$yfListRecyclerView",
 
     ]
 

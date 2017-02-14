@@ -3,8 +3,8 @@ package com.yefeng.androidarchitecturedemo.base;
 import android.app.Application;
 
 import com.yefeng.androidarchitecturedemo.BuildConfig;
-import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.data.source.db.DbGreen;
+import com.yefeng.support.base.AppInfo;
 import com.yefeng.support.http.Http;
 import com.yefeng.support.http.HttpCommonParams;
 
@@ -23,6 +23,9 @@ public class AppInit {
             Timber.plant(new Timber.DebugTree());
         }
 
+        // init app info
+        AppInfo.init(app);
+
         // set http
         Http.setTimeOut(30);
         Http.setHost(Http.DEFAULT_HOST, Http.DEFAULT_API_VERSION);
@@ -32,9 +35,9 @@ public class AppInit {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept-Charset", "utf-8")
                 .addHeader("Accept-Encoding", "gzip, deflate")
-                .addParam("appVersion", "1.0.0")
-                .addParam("appName", app.getString(R.string.app_name));
-
+                .addParam("appVersion", AppInfo.appVersion)
+                .addParam("appName", AppInfo.appName);
+        
         // init green db
         DbGreen.getInstance().init(app);
     }

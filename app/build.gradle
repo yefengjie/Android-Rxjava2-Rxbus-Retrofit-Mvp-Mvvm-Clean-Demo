@@ -84,7 +84,7 @@ android {
                     buildName = product.name
                 }
 
-                releaseApkName = appName + defaultConfig.versionName + '-' + variant.buildType.name + '.apk'
+                releaseApkName = appName + defaultConfig.versionName + '_' + variant.buildType.name + '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
         }
