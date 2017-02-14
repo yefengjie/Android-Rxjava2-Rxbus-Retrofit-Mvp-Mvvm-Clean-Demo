@@ -46,10 +46,19 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
+    /**
+     * load books
+     *
+     * @param forceUpdate force update data.
+     *                    if true, we need to load from net.
+     *                    if false, load from memory,
+     *                    if memory is empty, load from db,
+     *                    if db is empty, load from net
+     */
     @Override
     public void loadBooks(boolean forceUpdate) {
         mCompositeDisposable.add(
-                mBookRepository.getBooks()
+                mBookRepository.getBooks(forceUpdate)
                         .compose(new HttpSchedulersTransformer<>())
                         .doOnSubscribe(subscription -> {
                             Timber.d("doOnSubscribe()");
@@ -71,7 +80,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void subscribe() {
-        loadBooks(true);
+        loadBooks(false);
     }
 
     @Override

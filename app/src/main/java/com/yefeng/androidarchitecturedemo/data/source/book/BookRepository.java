@@ -58,6 +58,15 @@ public class BookRepository implements BookDataSource {
         return Flowable.concat(mBookMemoryDataSource.getBooks(), getAndCacheLocalBooks(), getAndSaveRemoteBooks());
     }
 
+    public Flowable<List<Book>> getBooks(boolean forceUpdate) {
+        if (forceUpdate) {
+            return getBooks();
+        }
+        return getBooks()
+                .filter(books -> !books.isEmpty())
+                .take(1);
+    }
+
     private Flowable<List<Book>> getAndCacheLocalBooks() {
         return mBookLocalDataSource.getBooks()
                 .doOnNext(books -> mBookMemoryDataSource.saveBooks(books));
