@@ -8,6 +8,7 @@ import com.yefeng.support.http.HttpSchedulersTransformer;
 
 import java.util.ArrayList;
 
+import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 /**
@@ -24,11 +25,14 @@ public class MainPresenter implements MainContract.Presenter {
     @NonNull
     private final MainContract.View mMainView;
 
+    private CompositeDisposable mCompositeDisposable;
+
 
     public MainPresenter(@NonNull BookRepository bookRepository, @NonNull MainContract.View mainView) {
         mBookRepository = bookRepository;
         mMainView = mainView;
         mMainView.setPresenter(this);
+        mCompositeDisposable = new CompositeDisposable();
     }
 
 
@@ -44,24 +48,25 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadBooks(boolean forceUpdate) {
-        mBookRepository.getBooks()
-                .compose(new HttpSchedulersTransformer<>())
-                .doOnSubscribe(subscription -> {
-                    Timber.d("doOnSubscribe()");
-                    mMainView.onLoading();
-                })
-                .subscribe(books -> {
-                    Timber.d("onNext()");
-                    Timber.e(books.toString());
-                    mMainView.onLoadOk(new ArrayList<>(books));
-                    Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                }, throwable -> {
-                    Timber.e(throwable);
-                    mMainView.onLoadError(throwable.getMessage());
-                }, () -> {
-                    Timber.d("onComplete()");
-                    mMainView.onLoadFinish();
-                });
+        mCompositeDisposable.add(
+                mBookRepository.getBooks()
+                        .compose(new HttpSchedulersTransformer<>())
+                        .doOnSubscribe(subscription -> {
+                            Timber.d("doOnSubscribe()");
+                            mMainView.onLoading();
+                        })
+                        .subscribe(books -> {
+                            Timber.d("onNext()");
+                            Timber.e(books.toString());
+                            mMainView.onLoadOk(new ArrayList<>(books));
+                            Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                        }, throwable -> {
+                            Timber.e(throwable);
+                            mMainView.onLoadError(throwable.getMessage());
+                        }, () -> {
+                            Timber.d("onComplete()");
+                            mMainView.onLoadFinish();
+                        }));
     }
 
     @Override
@@ -71,6 +76,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void unsubscribe() {
-
+        mCompositeDisposable.clear();
     }
 }
