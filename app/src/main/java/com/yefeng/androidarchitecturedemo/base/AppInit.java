@@ -17,6 +17,8 @@ import timber.log.Timber;
 
 public class AppInit {
 
+    private static final String LOCAL_HOST = "http://192.168.20.189:8000";
+
     public static void init(Application app) {
         // init log
         if (BuildConfig.DEBUG) {
@@ -28,7 +30,7 @@ public class AppInit {
 
         // set http
         Http.setTimeOut(30);
-        Http.setHost(Http.DEFAULT_HOST, Http.DEFAULT_API_VERSION);
+        Http.setHost(LOCAL_HOST, Http.DEFAULT_API_VERSION);
 
         // init http common params
         new HttpCommonParams.Builder()

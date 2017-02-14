@@ -30,18 +30,8 @@ public class BookRemoteDataSource implements BookDataSource {
     }
 
     @Override
-    public Flowable<Book> getBook(@NonNull String id) {
-        return getApi().getbook(id).map(new HttpResFunction<>());
-    }
-
-    @Override
     public Flowable saveBook(@NonNull Book book) {
         return getApi().saveBook(book).map(new HttpResFunction<>());
-    }
-
-    @Override
-    public Flowable deleteBooks() {
-        return getApi().deleteBooks().map(new HttpResFunction<>());
     }
 
     @Override

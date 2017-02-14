@@ -1,9 +1,9 @@
 package com.yefeng.androidarchitecturedemo.ui.main;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -13,23 +13,27 @@ import com.freedom.yefeng.yfrecyclerview.YfListInterface;
 import com.freedom.yefeng.yfrecyclerview.YfListMode;
 import com.freedom.yefeng.yfrecyclerview.YfListRecyclerView;
 import com.yefeng.androidarchitecturedemo.R;
+import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
+
+import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * ui main view
  */
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
-    private ProgressDialog mPd;
-    private BookRepository mBr;
     private MainContract.Presenter mPresenter;
 
     private YfListRecyclerView mList;
     private MainAdapter mAdapter;
-    private int mode = YfListMode.MODE_DATA;
+
+    private SwipeRefreshLayout mSwipeLayout;
 
 
     @Override
@@ -53,17 +57,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setSupportActionBar(toolbar);
 
         //init swipe refresh layout
-        final SwipeRefreshLayout mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColorSchemeResources(
                 android.R.color.holo_blue_light,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         mSwipeLayout.setOnRefreshListener(() -> mPresenter.loadBooks(true));
-
-        // init loading dialog
-        mPd = new ProgressDialog(this);
-        mPd.setMessage("加载中");
 
         mList = (YfListRecyclerView) findViewById(R.id.recycler);
         mList.setHasFixedSize(true);
@@ -74,17 +74,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void initAdapter() {
-        mAdapter = new MainAdapter(mPresenter.getBooks());
-        mAdapter.setOnItemClickListener(new YfListInterface.OnItemClickListener() {
+        mAdapter = new MainAdapter(null);
+        mAdapter.setOnItemClickListener(new YfListInterface.OnItemClickListener<Book>() {
             @Override
-            public void onItemClick(View view, Object o) {
-                showToast((String) o);
-            }
-        });
-        mAdapter.setOnItemLongClickListener(new YfListInterface.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(View view, Object o) {
-                showToast(o + " long click");
+            public void onItemClick(View view, Book book) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("delete book: " + book.getTitle() + " ?")
+                        .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+                        .setPositiveButton("delete", (dialog, which) -> mPresenter.deleteBook(String.valueOf(book.getId())))
+                        .create()
+                        .show();
             }
         });
         mAdapter.setOnEmptyViewClickListener(view -> showToast("click empty view"));
@@ -108,17 +107,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showLoading() {
-
+    public void onLoading() {
+        mSwipeLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideLoading() {
+    public void onLoadOk(ArrayList<Book> books) {
+        mAdapter.setData(books);
+    }
 
+    @Override
+    public void onLoadError(String msg) {
+        mSwipeLayout.setRefreshing(false);
+        mAdapter.changeMode(YfListMode.MODE_ERROR);
+        showToast(msg);
+    }
+
+    @Override
+    public void onLoadFinish() {
+        mSwipeLayout.setRefreshing(false);
     }
 
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
-
+        Timber.d("setPresenter()");
     }
 }

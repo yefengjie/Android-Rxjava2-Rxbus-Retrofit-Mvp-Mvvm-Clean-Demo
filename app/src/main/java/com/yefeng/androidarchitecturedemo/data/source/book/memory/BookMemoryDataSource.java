@@ -37,14 +37,6 @@ public class BookMemoryDataSource implements BookDataSource {
         });
     }
 
-    @Override
-    public Flowable<Book> getBook(@NonNull String id) {
-        Book book = getMemoryBooks().get(Long.valueOf(id));
-        if (null != book) {
-            return Flowable.just(book);
-        }
-        return Flowable.empty();
-    }
 
     @Override
     public Flowable<Void> saveBook(@NonNull Book book) {
@@ -59,12 +51,6 @@ public class BookMemoryDataSource implements BookDataSource {
         for (Book book : books) {
             getMemoryBooks().put(book.getId(), book);
         }
-    }
-
-    @Override
-    public Flowable<Void> deleteBooks() {
-        getMemoryBooks().clear();
-        return Flowable.empty();
     }
 
     @Override

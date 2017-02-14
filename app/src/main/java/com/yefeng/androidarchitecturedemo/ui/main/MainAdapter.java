@@ -12,7 +12,6 @@ import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yefeng on 8/5/15.
@@ -20,8 +19,8 @@ import java.util.List;
  */
 public class MainAdapter extends YfListAdapter<Book> {
 
-    public MainAdapter(List<Book> data) {
-        super(new ArrayList<>(data));
+    public MainAdapter(ArrayList<Book> data) {
+        super(data);
     }
 
     @Override

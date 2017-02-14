@@ -6,29 +6,27 @@ import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.support.base.BasePresenter;
 import com.yefeng.support.base.BaseView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public class MainContract {
     interface Presenter extends BasePresenter {
-        List<Book> getBooks();
+        void saveBook(@NonNull Book book);
 
-        Book getBook(@NonNull String id);
-
-        Void saveBook(@NonNull Book book);
-
-        Void deleteBooks();
-
-        Void deleteBook(@NonNull String id);
+        void deleteBook(@NonNull String id);
 
         void loadBooks(boolean forceUpdate);
     }
 
     interface View extends BaseView<Presenter> {
-        void showLoading();
+        void onLoading();
 
-        void hideLoading();
+        void onLoadOk(ArrayList<Book> books);
+
+        void onLoadError(String msg);
+
+        void onLoadFinish();
     }
 }

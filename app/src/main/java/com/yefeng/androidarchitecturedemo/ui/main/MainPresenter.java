@@ -4,8 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
+import com.yefeng.support.http.HttpSchedulersTransformer;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by yefeng on 14/02/2017.
@@ -30,38 +33,40 @@ public class MainPresenter implements MainContract.Presenter {
 
 
     @Override
-    public List<Book> getBooks() {
-        return null;
+    public void saveBook(@NonNull Book book) {
+
     }
 
     @Override
-    public Book getBook(@NonNull String id) {
-        return null;
-    }
+    public void deleteBook(@NonNull String id) {
 
-    @Override
-    public Void saveBook(@NonNull Book book) {
-        return null;
-    }
-
-    @Override
-    public Void deleteBooks() {
-        return null;
-    }
-
-    @Override
-    public Void deleteBook(@NonNull String id) {
-        return null;
     }
 
     @Override
     public void loadBooks(boolean forceUpdate) {
-
+        mBookRepository.getBooks()
+                .compose(new HttpSchedulersTransformer<>())
+                .doOnSubscribe(subscription -> {
+                    Timber.d("doOnSubscribe()");
+                    mMainView.onLoading();
+                })
+                .subscribe(books -> {
+                    Timber.d("onNext()");
+                    Timber.e(books.toString());
+                    mMainView.onLoadOk(new ArrayList<>(books));
+                    Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                }, throwable -> {
+                    Timber.e(throwable);
+                    mMainView.onLoadError(throwable.getMessage());
+                }, () -> {
+                    Timber.d("onComplete()");
+                    mMainView.onLoadFinish();
+                });
     }
 
     @Override
     public void subscribe() {
-
+        loadBooks(true);
     }
 
     @Override

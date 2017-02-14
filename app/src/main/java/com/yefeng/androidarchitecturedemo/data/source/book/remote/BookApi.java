@@ -22,14 +22,8 @@ public interface BookApi {
     @GET("getBooks")
     Flowable<HttpRes<List<Book>>> getBooks();
 
-    @GET("getBook")
-    Flowable<HttpRes<Book>> getbook(@Query("id") @NonNull String id);
-
     @POST("saveBook")
     Flowable<HttpRes<Void>> saveBook(@Body @NonNull Book book);
-
-    @GET("deleteBooks")
-    Flowable<HttpRes<Void>> deleteBooks();
 
     @GET("deleteBook")
     Flowable<HttpRes<Void>> deleteBook(@Query("id") @NonNull String id);

@@ -31,11 +31,6 @@ public class BookLocalDataSource implements BookDataSource {
     }
 
     @Override
-    public Flowable<Book> getBook(@NonNull String id) {
-        return Flowable.just(getBookDao().load(Long.valueOf(id)));
-    }
-
-    @Override
     public Flowable saveBook(@NonNull Book book) {
         getBookDao().insertOrReplace(book);
         return Flowable.empty();
@@ -43,12 +38,6 @@ public class BookLocalDataSource implements BookDataSource {
 
     public Flowable saveBooks(@NonNull List<Book> books) {
         getBookDao().insertOrReplaceInTx(books);
-        return Flowable.empty();
-    }
-
-    @Override
-    public Flowable deleteBooks() {
-        getBookDao().deleteAll();
         return Flowable.empty();
     }
 

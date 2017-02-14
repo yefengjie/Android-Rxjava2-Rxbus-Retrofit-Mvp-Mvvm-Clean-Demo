@@ -71,18 +71,9 @@ public class BookRepository implements BookDataSource {
                 });
     }
 
-    @Override
-    public Flowable<Book> getBook(@NonNull String id) {
-        return null;
-    }
 
     @Override
     public Flowable saveBook(@NonNull Book book) {
-        return null;
-    }
-
-    @Override
-    public Flowable deleteBooks() {
         return null;
     }
 
