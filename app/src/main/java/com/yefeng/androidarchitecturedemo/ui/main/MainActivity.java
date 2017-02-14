@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onStop() {
         super.onStop();
-        mPresenter.unsubscribe();
+        mPresenter.unSubscribe();
     }
 
     @Override
