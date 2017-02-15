@@ -32,5 +32,13 @@ public class MainContract {
         void addBook(android.view.View view);
 
         void deleteBook(@NonNull String id);
+
+        void onAction();
+
+        void onActionOk();
+
+        void onActionError(String msg);
+
+        void onActionFinish();
     }
 }

@@ -30,8 +30,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="537">
+              <caret line="48" column="17" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
               <folding>
                 <element signature="e#41#78#0" expanded="true" />
               </folding>
@@ -46,8 +46,8 @@
       <list>
         <option value="$PROJECT_DIR$/server/models.py" />
         <option value="$PROJECT_DIR$/util/dictutil.py" />
-        <option value="$PROJECT_DIR$/server/views.py" />
         <option value="$PROJECT_DIR$/appserver/urls.py" />
+        <option value="$PROJECT_DIR$/server/views.py" />
       </list>
     </option>
   </component>
@@ -596,8 +596,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="537">
+          <caret line="48" column="17" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
           <folding>
             <element signature="e#41#78#0" expanded="true" />
           </folding>

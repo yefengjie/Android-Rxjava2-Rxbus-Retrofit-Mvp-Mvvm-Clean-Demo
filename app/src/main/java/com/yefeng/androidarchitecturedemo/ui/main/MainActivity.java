@@ -1,5 +1,6 @@
 package com.yefeng.androidarchitecturedemo.ui.main;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private SwipeRefreshLayout mSwipeLayout;
 
+    private ProgressDialog mPd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initAdapter();
         mList.setAdapter(mAdapter);
         mList.setDivider(R.mipmap.divider);
+
+        //init progress
+        mPd = new ProgressDialog(this);
+        mPd.setMessage("please wait...");
     }
 
     private void initAdapter() {
@@ -143,6 +150,27 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void deleteBook(@NonNull String id) {
         mPresenter.deleteBook(id);
+    }
+
+    @Override
+    public void onAction() {
+        mPd.show();
+    }
+
+    @Override
+    public void onActionOk() {
+        mPresenter.loadBooks(false);
+    }
+
+    @Override
+    public void onActionError(String msg) {
+        mPd.dismiss();
+        showToast(msg);
+    }
+
+    @Override
+    public void onActionFinish() {
+        mPd.dismiss();
     }
 
     @Override

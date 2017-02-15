@@ -35,6 +35,8 @@ def getSampleBook(request):
 
 @csrf_exempt
 def saveSampleBook(request):
+    # 模拟网络延迟
+    time.sleep(5)
     bookJson = json.loads(request.body)
     b = Book(id=bookJson['id'], title=bookJson['title'])
     b.save()
@@ -43,6 +45,8 @@ def saveSampleBook(request):
 
 
 def deleteSampleBooks(request):
+    # 模拟网络延迟
+    time.sleep(5)
     Book.objects.all().delete()
     return json_ok('delete success')
 
