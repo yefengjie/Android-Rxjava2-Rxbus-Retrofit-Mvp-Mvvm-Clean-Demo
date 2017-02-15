@@ -5,6 +5,7 @@ import timber.log.Timber;
 
 /**
  * Created by yefeng on 06/02/2017.
+ * handle http res
  */
 
 public class HttpResFunction<T> implements Function<HttpRes<T>, T> {

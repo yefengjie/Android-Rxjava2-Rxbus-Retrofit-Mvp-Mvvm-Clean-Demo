@@ -9,11 +9,9 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yefeng on 07/02/2017.
+ * http schedulers transformer
  */
 
-/**
- * 后台线程执行同步，主线程执行异步操作
- */
 public class HttpSchedulersTransformer<T> implements FlowableTransformer<T, T> {
     @Override
     public Publisher<T> apply(Flowable<T> upstream) {

@@ -10,7 +10,7 @@ import com.yefeng.support.R;
 
 /**
  * Created by yee on 11/18/13.
- *
+ * app basic information
  * @author yefeng
  */
 public class AppInfo {
