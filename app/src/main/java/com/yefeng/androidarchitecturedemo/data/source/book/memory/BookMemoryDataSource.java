@@ -65,7 +65,6 @@ public class BookMemoryDataSource implements BookDataSource {
     }
 
     private Map<Long, Book> getMemoryBooks() {
-        Timber.d("method: %s, thread: %s_%s", "getMemoryBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null == mBooks) {
             mBooks = new HashMap<>();
         }
