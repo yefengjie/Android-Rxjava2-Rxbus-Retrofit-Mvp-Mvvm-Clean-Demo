@@ -23,7 +23,7 @@ public interface BookApi {
     Flowable<HttpRes<List<Book>>> getBooks();
 
     @POST("saveBook")
-    Flowable<HttpRes<Void>> saveBook(@Body @NonNull Book book);
+    Flowable<HttpRes<String>> saveBook(@Body @NonNull Book book);
 
     @GET("deleteBook")
     Flowable<HttpRes<Void>> deleteBook(@Query("id") @NonNull String id);

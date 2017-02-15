@@ -87,6 +87,15 @@ public class BookRepository implements BookDataSource {
 
     @Override
     public void saveBook(@NonNull Book book) {
+
+    }
+
+    public Flowable<String> saveBookRx(@NonNull Book book) {
+        return Flowable.fromPublisher(mBookRemoteDataSource.saveBookRx(book))
+                .doOnNext(s -> {
+                    mBookMemoryDataSource.saveBook(book);
+                    mBookLocalDataSource.saveBook(book);
+                });
     }
 
     @Override

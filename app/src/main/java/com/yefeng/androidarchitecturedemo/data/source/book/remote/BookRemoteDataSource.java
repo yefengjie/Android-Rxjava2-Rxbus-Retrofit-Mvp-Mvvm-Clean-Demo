@@ -35,6 +35,11 @@ public class BookRemoteDataSource implements BookDataSource {
         getApi().saveBook(book).map(new HttpResFunction<>());
     }
 
+    public Flowable<String> saveBookRx(@NonNull Book book) {
+        Timber.d("method: %s, thread: %s_%s", "saveBookRx()", Thread.currentThread().getName(), Thread.currentThread().getId());
+        return getApi().saveBook(book).map(new HttpResFunction<>());
+    }
+
     @Override
     public void deleteBook(@NonNull String id) {
         Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
