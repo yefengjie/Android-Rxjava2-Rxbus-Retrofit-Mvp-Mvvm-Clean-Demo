@@ -68,13 +68,17 @@ public class BookRepository implements BookDataSource {
     }
 
     private Flowable<List<Book>> getAndCacheLocalBooks() {
-        return mBookLocalDataSource.getBooks()
-                .doOnNext(mBookMemoryDataSource::saveBooks);
+        return mBookLocalDataSource.getBooks().doOnNext(books -> {
+            mBookMemoryDataSource.clear();
+            mBookMemoryDataSource.saveBooks(books);
+        });
     }
 
     private Flowable<List<Book>> getAndSaveRemoteBooks() {
         return mBookRemoteDataSource.getBooks()
                 .doOnNext(books -> {
+                    mBookMemoryDataSource.clear();
+                    mBookLocalDataSource.deleteBooks();
                     mBookMemoryDataSource.saveBooks(books);
                     mBookLocalDataSource.saveBooks(books);
                 });

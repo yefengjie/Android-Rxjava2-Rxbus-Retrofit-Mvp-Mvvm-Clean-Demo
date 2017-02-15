@@ -71,12 +71,11 @@ public class BookMemoryDataSource implements BookDataSource {
         return mBooks;
     }
 
-    public Flowable clear() {
+    public void clear() {
         Timber.d("method: %s, thread: %s_%s", "clear()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null != mBooks) {
             mBooks.clear();
         }
-        return Flowable.empty();
     }
 
 }

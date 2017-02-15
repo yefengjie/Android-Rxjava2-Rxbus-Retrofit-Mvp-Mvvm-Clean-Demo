@@ -57,4 +57,9 @@ public class BookLocalDataSource implements BookDataSource {
         getBookDao().deleteByKey(Long.valueOf(id));
         return Flowable.empty();
     }
+
+    public void deleteBooks() {
+        Timber.d("method: %s, thread: %s_%s", "deleteBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
+        getBookDao().deleteAll();
+    }
 }
