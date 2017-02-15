@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void addBook(View view) {
         long lastBookId = 0;
-        if (mAdapter.getData().size() >= 0) {
+        if (mAdapter.getData().size() > 0) {
             lastBookId = mAdapter.getData().get(mAdapter.getData().size() - 1).getId();
         }
         Book newBook = new Book();
