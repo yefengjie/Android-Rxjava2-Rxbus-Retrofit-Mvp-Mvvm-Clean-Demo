@@ -1,6 +1,7 @@
 package com.yefeng.androidarchitecturedemo.ui.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainAdapter mAdapter;
 
     private SwipeRefreshLayout mSwipeLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("delete book: " + book.getTitle() + " ?")
                         .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
-                        .setPositiveButton("delete", (dialog, which) -> mPresenter.deleteBook(String.valueOf(book.getId())))
+                        .setPositiveButton("delete", (dialog, which) -> deleteBook(String.valueOf(book.getId())))
                         .create()
                         .show();
             }
@@ -126,6 +126,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onLoadFinish() {
         mSwipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void addBook(View view) {
+        long lastBookId = 0;
+        if (mAdapter.getData().size() >= 0) {
+            lastBookId = mAdapter.getData().get(mAdapter.getData().size() - 1).getId();
+        }
+        Book newBook = new Book();
+        newBook.setId(lastBookId + 1);
+        newBook.setTitle("book " + lastBookId);
+        mPresenter.saveBook(newBook);
+    }
+
+    @Override
+    public void deleteBook(@NonNull String id) {
+        mPresenter.deleteBook(id);
     }
 
     @Override

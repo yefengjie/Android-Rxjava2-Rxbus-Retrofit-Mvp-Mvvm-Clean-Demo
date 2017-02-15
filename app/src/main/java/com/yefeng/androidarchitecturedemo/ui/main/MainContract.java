@@ -28,5 +28,9 @@ public class MainContract {
         void onLoadError(String msg);
 
         void onLoadFinish();
+
+        void addBook(android.view.View view);
+
+        void deleteBook(@NonNull String id);
     }
 }

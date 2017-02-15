@@ -6,9 +6,13 @@ import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.support.http.HttpSchedulersTransformer;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -60,9 +64,12 @@ public class MainPresenter implements MainContract.Presenter {
         mCompositeDisposable.add(
                 mBookRepository.getBooks(forceUpdate)
                         .compose(new HttpSchedulersTransformer<>())
-                        .doOnSubscribe(subscription -> {
-                            Timber.d("doOnSubscribe()");
-                            mMainView.onLoading();
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                Timber.d("doOnSubscribe()");
+                                mMainView.onLoading();
+                            }
                         })
                         .subscribe(books -> {
                             Timber.d("onNext()");
@@ -72,9 +79,12 @@ public class MainPresenter implements MainContract.Presenter {
                         }, throwable -> {
                             Timber.e(throwable);
                             mMainView.onLoadError(throwable.getMessage());
-                        }, () -> {
-                            Timber.d("onComplete()");
-                            mMainView.onLoadFinish();
+                        }, new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Timber.d("onComplete()");
+                                mMainView.onLoadFinish();
+                            }
                         }));
     }
 
