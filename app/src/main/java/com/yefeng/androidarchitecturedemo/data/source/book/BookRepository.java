@@ -7,10 +7,14 @@ import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSo
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
@@ -56,7 +60,20 @@ public class BookRepository implements BookDataSource {
      */
     @Override
     public Flowable<List<Book>> getBooks() {
-        return Flowable.concat(mBookMemoryDataSource.getBooks(), getAndCacheLocalBooks(), getAndSaveRemoteBooks());
+        return Flowable.concat(mBookMemoryDataSource.getBooks(), getAndCacheLocalBooks(), getAndSaveRemoteBooks())
+                .map(new Function<List<Book>, List<Book>>() {
+                    @Override
+                    public List<Book> apply(List<Book> books) throws Exception {
+                        Timber.d("method: %s, thread: %s_%s", "sort book list", Thread.currentThread().getName(), Thread.currentThread().getId());
+                        Collections.sort(books, new Comparator<Book>() {
+                            @Override
+                            public int compare(Book o1, Book o2) {
+                                return o1.getTitle().compareTo(o2.getTitle());
+                            }
+                        });
+                        return books;
+                    }
+                });
     }
 
     public Flowable<List<Book>> getBooks(boolean forceUpdate) {
@@ -94,6 +111,7 @@ public class BookRepository implements BookDataSource {
     public Flowable<String> saveBookRx(@NonNull Book book) {
         return Flowable.fromPublisher(mBookRemoteDataSource.saveBookRx(book))
                 .doOnNext(s -> {
+                    Timber.d("method: %s, thread: %s_%s", "saveBook:doOnNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
                     mBookMemoryDataSource.saveBook(book);
                     mBookLocalDataSource.saveBook(book);
                 });
@@ -109,6 +127,7 @@ public class BookRepository implements BookDataSource {
                 .doOnNext(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
+                        Timber.d("method: %s, thread: %s_%s", "deleteBook:doOnNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
                         mBookMemoryDataSource.deleteBook(id);
                         mBookLocalDataSource.deleteBook(id);
                     }
