@@ -13,7 +13,6 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * 后台线程执行同步，主线程执行异步操作
- * 并且拦截所有错误，不让app崩溃
  */
 public class HttpSchedulersTransformer<T> implements FlowableTransformer<T, T> {
     @Override
