@@ -86,12 +86,10 @@ public class BookRepository implements BookDataSource {
 
 
     @Override
-    public Flowable saveBook(@NonNull Book book) {
-        return null;
+    public void saveBook(@NonNull Book book) {
     }
 
     @Override
-    public Flowable deleteBook(@NonNull String sampleBookId) {
-        return null;
+    public void deleteBook(@NonNull String sampleBookId) {
     }
 }

@@ -41,10 +41,9 @@ public class BookMemoryDataSource implements BookDataSource {
 
 
     @Override
-    public Flowable<Void> saveBook(@NonNull Book book) {
+    public void saveBook(@NonNull Book book) {
         Timber.d("method: %s, thread: %s_%s", "saveBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getMemoryBooks().put(book.getId(), book);
-        return Flowable.empty();
     }
 
     public void saveBooks(List<Book> books) {
@@ -58,10 +57,9 @@ public class BookMemoryDataSource implements BookDataSource {
     }
 
     @Override
-    public Flowable<Void> deleteBook(@NonNull String id) {
+    public void deleteBook(@NonNull String id) {
         Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getMemoryBooks().remove(Long.valueOf(id));
-        return Flowable.empty();
     }
 
     private Map<Long, Book> getMemoryBooks() {

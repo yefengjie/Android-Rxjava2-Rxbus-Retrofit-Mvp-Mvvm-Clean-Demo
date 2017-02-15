@@ -39,10 +39,9 @@ public class BookLocalDataSource implements BookDataSource {
     }
 
     @Override
-    public Flowable saveBook(@NonNull Book book) {
+    public void saveBook(@NonNull Book book) {
         Timber.d("method: %s, thread: %s_%s", "saveBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getBookDao().insertOrReplace(book);
-        return Flowable.empty();
     }
 
     public Flowable saveBooks(@NonNull List<Book> books) {
@@ -52,10 +51,9 @@ public class BookLocalDataSource implements BookDataSource {
     }
 
     @Override
-    public Flowable deleteBook(@NonNull String id) {
+    public void deleteBook(@NonNull String id) {
         Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getBookDao().deleteByKey(Long.valueOf(id));
-        return Flowable.empty();
     }
 
     public void deleteBooks() {

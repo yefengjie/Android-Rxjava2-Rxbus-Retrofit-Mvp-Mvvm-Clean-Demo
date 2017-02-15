@@ -17,7 +17,7 @@ public interface BookDataSource {
 
     Flowable<List<Book>> getBooks();
 
-    Flowable saveBook(@NonNull Book book);
+    void saveBook(@NonNull Book book);
 
-    Flowable deleteBook(@NonNull String id);
+    void deleteBook(@NonNull String id);
 }
