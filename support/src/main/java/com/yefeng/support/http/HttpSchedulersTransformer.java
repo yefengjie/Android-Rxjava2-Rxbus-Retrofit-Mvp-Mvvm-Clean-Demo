@@ -19,7 +19,6 @@ public class HttpSchedulersTransformer<T> implements FlowableTransformer<T, T> {
     @Override
     public Publisher<T> apply(Flowable<T> upstream) {
         return upstream.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(Flowable.<T>empty());
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
