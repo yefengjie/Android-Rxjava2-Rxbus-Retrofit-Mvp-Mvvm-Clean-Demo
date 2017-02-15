@@ -31,11 +31,13 @@ public class BookRemoteDataSource implements BookDataSource {
 
     @Override
     public Flowable saveBook(@NonNull Book book) {
+        Timber.d("method: %s, thread: %s_%s", "saveBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return getApi().saveBook(book).map(new HttpResFunction<>());
     }
 
     @Override
     public Flowable deleteBook(@NonNull String id) {
+        Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return getApi().deleteBook(id).map(new HttpResFunction<>());
     }
 }

@@ -8,6 +8,7 @@ import com.yefeng.androidarchitecturedemo.data.source.book.BookDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.db.DbGreen;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import io.reactivex.Flowable;
 import timber.log.Timber;
@@ -26,23 +27,33 @@ public class BookLocalDataSource implements BookDataSource {
 
     @Override
     public Flowable<List<Book>> getBooks() {
-        Timber.d("method: %s, thread: %s_%s", "getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
-        return Flowable.fromCallable(() -> getBookDao().loadAll());
+        return Flowable.fromCallable(new Callable<List<Book>>() {
+            @Override
+            public List<Book> call() throws Exception {
+                Timber.d("method: %s, thread: %s_%s", "getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                List<Book> list = getBookDao().loadAll();
+                Timber.d("getBooks: " + list.size());
+                return list;
+            }
+        });
     }
 
     @Override
     public Flowable saveBook(@NonNull Book book) {
+        Timber.d("method: %s, thread: %s_%s", "saveBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getBookDao().insertOrReplace(book);
         return Flowable.empty();
     }
 
     public Flowable saveBooks(@NonNull List<Book> books) {
+        Timber.d("method: %s, thread: %s_%s", "saveBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getBookDao().insertOrReplaceInTx(books);
         return Flowable.empty();
     }
 
     @Override
     public Flowable deleteBook(@NonNull String id) {
+        Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getBookDao().deleteByKey(Long.valueOf(id));
         return Flowable.empty();
     }

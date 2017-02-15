@@ -9,6 +9,7 @@ import com.yefeng.support.http.HttpSchedulersTransformer;
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
@@ -67,21 +68,27 @@ public class MainPresenter implements MainContract.Presenter {
                         .doOnSubscribe(new Consumer<Subscription>() {
                             @Override
                             public void accept(Subscription subscription) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
                                 Timber.d("doOnSubscribe()");
                                 mMainView.onLoading();
                             }
                         })
-                        .subscribe(books -> {
-                            Timber.d("onNext()");
-                            Timber.e(books.toString());
-                            mMainView.onLoadOk(new ArrayList<>(books));
-                            Timber.d("method: %s, thread: %s_%s", "test()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                        .subscribe(new Consumer<List<Book>>() {
+                            @Override
+                            public void accept(List<Book> books) throws Exception {
+                                Timber.d("onNext()");
+                                Timber.e(books.toString());
+                                mMainView.onLoadOk(new ArrayList<>(books));
+                                Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                            }
                         }, throwable -> {
+                            Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
                             Timber.e(throwable);
                             mMainView.onLoadError(throwable.getMessage());
                         }, new Action() {
                             @Override
                             public void run() throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
                                 Timber.d("onComplete()");
                                 mMainView.onLoadFinish();
                             }

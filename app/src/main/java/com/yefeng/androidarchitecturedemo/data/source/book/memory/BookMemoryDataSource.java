@@ -26,6 +26,7 @@ public class BookMemoryDataSource implements BookDataSource {
 
     @Override
     public Flowable<List<Book>> getBooks() {
+        Timber.d("method: %s, thread: %s_%s", "getBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         return Flowable.just(getMemoryBooks().values()).map((Function<Collection<Book>, List<Book>>) books -> {
             List list;
             if (books instanceof List) {
@@ -33,6 +34,7 @@ public class BookMemoryDataSource implements BookDataSource {
             } else {
                 list = new ArrayList(books);
             }
+            Timber.d("getBooks: " + list.size());
             return list;
         });
     }
@@ -40,11 +42,13 @@ public class BookMemoryDataSource implements BookDataSource {
 
     @Override
     public Flowable<Void> saveBook(@NonNull Book book) {
+        Timber.d("method: %s, thread: %s_%s", "saveBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getMemoryBooks().put(book.getId(), book);
         return Flowable.empty();
     }
 
     public void saveBooks(List<Book> books) {
+        Timber.d("method: %s, thread: %s_%s", "saveBooks()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null == books || books.isEmpty()) {
             return;
         }
@@ -55,6 +59,7 @@ public class BookMemoryDataSource implements BookDataSource {
 
     @Override
     public Flowable<Void> deleteBook(@NonNull String id) {
+        Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getMemoryBooks().remove(Long.valueOf(id));
         return Flowable.empty();
     }
@@ -68,6 +73,7 @@ public class BookMemoryDataSource implements BookDataSource {
     }
 
     public Flowable clear() {
+        Timber.d("method: %s, thread: %s_%s", "clear()", Thread.currentThread().getName(), Thread.currentThread().getId());
         if (null != mBooks) {
             mBooks.clear();
         }
