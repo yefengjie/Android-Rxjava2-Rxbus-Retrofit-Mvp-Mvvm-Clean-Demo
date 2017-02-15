@@ -52,6 +52,8 @@ def deleteSampleBooks(request):
 
 
 def deleteSampleBook(request):
+    # 模拟网络延迟
+    time.sleep(5)
     id = request.GET.get('id')
     try:
         book = Book.objects.get(id=id)

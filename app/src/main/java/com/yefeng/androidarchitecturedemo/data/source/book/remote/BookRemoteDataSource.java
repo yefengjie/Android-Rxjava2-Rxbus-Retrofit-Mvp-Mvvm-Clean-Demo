@@ -45,4 +45,9 @@ public class BookRemoteDataSource implements BookDataSource {
         Timber.d("method: %s, thread: %s_%s", "deleteBook()", Thread.currentThread().getName(), Thread.currentThread().getId());
         getApi().deleteBook(id).map(new HttpResFunction<>());
     }
+
+    public Flowable<String> deleteBookRx(@NonNull String id) {
+        Timber.d("method: %s, thread: %s_%s", "deleteBookRx()", Thread.currentThread().getName(), Thread.currentThread().getId());
+        return getApi().deleteBook(id).map(new HttpResFunction<>());
+    }
 }

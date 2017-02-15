@@ -10,6 +10,7 @@ import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteData
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
@@ -99,6 +100,18 @@ public class BookRepository implements BookDataSource {
     }
 
     @Override
-    public void deleteBook(@NonNull String sampleBookId) {
+    public void deleteBook(@NonNull String id) {
+
+    }
+
+    public Flowable<String> deleteBookRx(@NonNull String id) {
+        return Flowable.fromPublisher(mBookRemoteDataSource.deleteBookRx(id))
+                .doOnNext(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        mBookMemoryDataSource.deleteBook(id);
+                        mBookLocalDataSource.deleteBook(id);
+                    }
+                });
     }
 }

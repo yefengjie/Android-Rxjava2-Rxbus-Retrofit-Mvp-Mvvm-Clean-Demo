@@ -77,7 +77,36 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void deleteBook(@NonNull String id) {
-
+        mCompositeDisposable.add(
+                mBookRepository.deleteBookRx(id)
+                        .compose(new HttpSchedulersTransformer<>())
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("doOnSubscribe()");
+                                mMainView.onAction();
+                            }
+                        })
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) throws Exception {
+                                Timber.d("onNext()");
+                                Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                mMainView.onActionOk();
+                            }
+                        }, throwable -> {
+                            Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                            Timber.e(throwable);
+                            mMainView.onActionError(throwable.getMessage());
+                        }, new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("onComplete()");
+                                mMainView.onActionFinish();
+                            }
+                        }));
     }
 
     /**
