@@ -17,6 +17,19 @@ data: data layer. data model. memory,local,remote data source
 
 ui: presentation layer
 
+### Libraries
+retrofit,okhttp,retrofit2_rxjava2_adapter
+
+rxandroid,rxjava
+
+greendao
+
+yf_list_recycler_view
+
+glide
+
+timber
+
 ### How to run server
 first: make sure you have install django
 
