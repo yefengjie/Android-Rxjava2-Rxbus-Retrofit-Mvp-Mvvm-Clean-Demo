@@ -83,6 +83,7 @@ see
 see
 [MainPresenter](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/app/src/main/java/com/yefeng/androidarchitecturedemo/ui/main/MainPresenter.java)
 [Events](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/app/src/main/java/com/yefeng/androidarchitecturedemo/ui/main/Events.java)
+[MainActivity](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/app/src/main/java/com/yefeng/androidarchitecturedemo/ui/main/MainActivity.java)
 ```Java
     public static class ReloadEvent {
         boolean mForceUpdate;
@@ -115,6 +116,9 @@ see
     public void unSubscribe() {
         mCompositeDisposable.clear();
     }
+
+
+    RxBus.getBus().send(new Events.ReloadEvent(false));
 ```
 
 ### How to use RxJava
