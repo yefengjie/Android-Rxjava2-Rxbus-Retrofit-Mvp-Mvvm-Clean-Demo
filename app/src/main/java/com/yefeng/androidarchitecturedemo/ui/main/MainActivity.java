@@ -20,6 +20,7 @@ import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
+import com.yefeng.support.rxbus.RxBus;
 
 import java.util.ArrayList;
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mSwipeLayout.setOnRefreshListener(() -> mPresenter.loadBooks(true));
+        mSwipeLayout.setOnRefreshListener(() -> RxBus.getBus().send(new Events.ReloadEvent(true)));
 
         mList = (YfListRecyclerView) findViewById(R.id.recycler);
         mList.setHasFixedSize(true);
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onActionOk() {
-        mPresenter.loadBooks(false);
+        RxBus.getBus().send(new Events.ReloadEvent(false));
     }
 
     @Override

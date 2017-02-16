@@ -5,15 +5,18 @@ import android.support.annotation.NonNull;
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.support.http.HttpSchedulersTransformer;
+import com.yefeng.support.rxbus.RxBus;
 
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -95,10 +98,13 @@ public class MainPresenter implements MainContract.Presenter {
                                 Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
                                 mMainView.onActionOk();
                             }
-                        }, throwable -> {
-                            Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                            Timber.e(throwable);
-                            mMainView.onActionError(throwable.getMessage());
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.e(throwable);
+                                mMainView.onActionError(throwable.getMessage());
+                            }
                         }, new Action() {
                             @Override
                             public void run() throws Exception {
@@ -120,6 +126,7 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void loadBooks(boolean forceUpdate) {
+        Timber.d("loadBooks: %s", forceUpdate);
         mCompositeDisposable.add(
                 mBookRepository.getBooks(forceUpdate)
                         .compose(new HttpSchedulersTransformer<>())
@@ -156,6 +163,19 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void subscribe() {
         loadBooks(false);
+        initRxBus();
+    }
+
+    private void initRxBus() {
+        mCompositeDisposable.add(RxBus.getBus()
+                .toObserverable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {
+                    if (o instanceof Events.ReloadEvent) {
+                        loadBooks(((Events.ReloadEvent) o).mForceUpdate);
+                    }
+                }));
     }
 
     @Override
