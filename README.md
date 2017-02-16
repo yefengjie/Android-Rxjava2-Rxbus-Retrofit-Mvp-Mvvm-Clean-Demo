@@ -160,4 +160,5 @@ see
 
 
 ### preview
-
+![alt tag](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/preview/1.png)
+![alt tag](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/preview/2.png)
