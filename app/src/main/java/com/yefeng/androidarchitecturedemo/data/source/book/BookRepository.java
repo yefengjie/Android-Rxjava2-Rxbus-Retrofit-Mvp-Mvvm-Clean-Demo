@@ -109,7 +109,7 @@ public class BookRepository implements BookDataSource {
     }
 
     public Flowable<String> saveBookRx(@NonNull Book book) {
-        return Flowable.fromPublisher(mBookRemoteDataSource.saveBookRx(book))
+        return mBookRemoteDataSource.saveBookRx(book)
                 .doOnNext(s -> {
                     Timber.d("method: %s, thread: %s_%s", "saveBook:doOnNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
                     mBookMemoryDataSource.saveBook(book);
@@ -123,7 +123,7 @@ public class BookRepository implements BookDataSource {
     }
 
     public Flowable<String> deleteBookRx(@NonNull String id) {
-        return Flowable.fromPublisher(mBookRemoteDataSource.deleteBookRx(id))
+        return mBookRemoteDataSource.deleteBookRx(id)
                 .doOnNext(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
