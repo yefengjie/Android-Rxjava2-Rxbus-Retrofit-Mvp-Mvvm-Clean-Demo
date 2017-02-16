@@ -5,6 +5,8 @@ android mvp architecture demo
 This is a android mvp sample used RxJava2, based on [google android-architecture project](https://github.com/googlesamples/android-architecture)
 
 ### Structure
+buildsystem: debug.jks,config.gradle. add dependencies library in config.gradle
+
 appserver: a simple django server, used for app http request test..
 
 support: app support libraries. such as http lib, rxbus, utils, etc...
