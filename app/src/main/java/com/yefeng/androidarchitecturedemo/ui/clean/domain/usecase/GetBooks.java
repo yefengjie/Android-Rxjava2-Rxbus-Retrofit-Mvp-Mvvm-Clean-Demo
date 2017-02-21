@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase;
+package com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase;
 
 import android.support.annotation.NonNull;
 

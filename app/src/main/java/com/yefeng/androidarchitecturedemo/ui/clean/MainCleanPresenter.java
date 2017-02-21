@@ -1,11 +1,11 @@
-package com.yefeng.androidarchitecturedemo.ui.cleanmain;
+package com.yefeng.androidarchitecturedemo.ui.clean;
 
 import android.support.annotation.NonNull;
 
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.DeleteBook;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.GetBooks;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.SaveBook;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.DeleteBook;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.GetBooks;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.SaveBook;
 import com.yefeng.androidarchitecturedemo.ui.mvp.Events;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainContract;
 import com.yefeng.support.base.UseCase;

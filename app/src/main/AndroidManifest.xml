@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".ui.cleanmain.MainCleanActivity"
+            android:name=".ui.clean.MainCleanActivity"
             android:label="clean architecture demo"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui.cleanmain;
+package com.yefeng.androidarchitecturedemo.ui.clean;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -20,9 +20,9 @@ import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.DeleteBook;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.GetBooks;
-import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.SaveBook;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.DeleteBook;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.GetBooks;
+import com.yefeng.androidarchitecturedemo.ui.clean.domain.usecase.SaveBook;
 import com.yefeng.androidarchitecturedemo.ui.mvp.Events;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainAdapter;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainContract;
