@@ -31,6 +31,10 @@
             android:name=".ui.clean.MainCleanActivity"
             android:label="Clean Architecture Demo"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ui.mvvm.MvvmActivity"
+            android:label="Mvvm Architecture Demo"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
