@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui.main;
+package com.yefeng.androidarchitecturedemo.ui.cleanmain;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -20,6 +20,12 @@ import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
 import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
+import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.DeleteBook;
+import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.GetBooks;
+import com.yefeng.androidarchitecturedemo.ui.cleanmain.domain.usecase.SaveBook;
+import com.yefeng.androidarchitecturedemo.ui.mvp.Events;
+import com.yefeng.androidarchitecturedemo.ui.mvp.MainAdapter;
+import com.yefeng.androidarchitecturedemo.ui.mvp.MainContract;
 import com.yefeng.support.rxbus.RxBus;
 
 import java.util.ArrayList;
@@ -27,9 +33,10 @@ import java.util.ArrayList;
 import timber.log.Timber;
 
 /**
- * ui main view
+ * Created by yefeng on 21/02/2017.
  */
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+
+public class MainCleanActivity extends AppCompatActivity implements MainContract.View {
 
     private MainContract.Presenter mPresenter;
 
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 new BookLocalDataSource(),
                 new BookMemoryDataSource()
         );
-        mPresenter = new MainPresenter(bookRepository, this);
+        mPresenter = new MainCleanPresenter(new GetBooks(bookRepository), new SaveBook(bookRepository), new DeleteBook(bookRepository), this);
 
         //init toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mAdapter.setOnItemClickListener(new YfListInterface.OnItemClickListener<Book>() {
             @Override
             public void onItemClick(View view, Book book) {
-                new AlertDialog.Builder(MainActivity.this)
+                new AlertDialog.Builder(MainCleanActivity.this)
                         .setTitle("delete book: " + book.getTitle() + " ?")
                         .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
                         .setPositiveButton("delete", (dialog, which) -> deleteBook(String.valueOf(book.getId())))

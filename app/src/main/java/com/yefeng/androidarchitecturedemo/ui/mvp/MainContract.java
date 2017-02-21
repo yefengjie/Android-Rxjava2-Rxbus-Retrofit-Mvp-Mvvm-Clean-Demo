@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui.main;
+package com.yefeng.androidarchitecturedemo.ui.mvp;
 
 import android.support.annotation.NonNull;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * This specifies the contract between the view and the presenter.
  */
 public class MainContract {
-    interface Presenter extends BasePresenter {
+    public interface Presenter extends BasePresenter {
         void saveBook(@NonNull Book book);
 
         void deleteBook(@NonNull String id);
@@ -20,7 +20,7 @@ public class MainContract {
         void loadBooks(boolean forceUpdate);
     }
 
-    interface View extends BaseView<Presenter> {
+    public interface View extends BaseView<Presenter> {
         void onLoading();
 
         void onLoadOk(ArrayList<Book> books);

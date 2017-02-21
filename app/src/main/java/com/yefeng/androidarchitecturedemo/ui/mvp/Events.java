@@ -1,4 +1,4 @@
-package com.yefeng.androidarchitecturedemo.ui.main;
+package com.yefeng.androidarchitecturedemo.ui.mvp;
 
 /**
  * Created by yefeng on 16/02/2017.
@@ -10,7 +10,7 @@ public class Events {
     }
 
     public static class ReloadEvent {
-        boolean mForceUpdate;
+        public boolean mForceUpdate;
 
         public ReloadEvent(boolean forceUpdate) {
             mForceUpdate = forceUpdate;
