@@ -4,7 +4,7 @@ android mvp architecture demo
 ### Summary
 This is a android mvp sample used RxJava2, based on [google android-architecture project](https://github.com/googlesamples/android-architecture)
 
-### Structure
+### Mvp Structure
 buildsystem: debug.jks,config.gradle. add dependencies library in config.gradle
 
 appserver: a simple django server, used for app http request test..
@@ -16,6 +16,14 @@ base: app basic classes, such as: Application, BaseActivity, BaseFragment, etc..
 data: data layer. data model. memory,local,remote data source
 
 ui: presentation layer
+
+### Clean Architecture Structure
+
+domain: Holds all business logic. The domain layer starts with classes named use cases or interactors used by the application presenters. These use cases represent all the possible actions a developer can perform from the presentation layer.
+
+### Mvvm
+
+databinding: uses the Data Binding library to display data and bind UI elements to actions.
 
 ### Libraries
 retrofit,okhttp,retrofit2_rxjava2_adapter
@@ -173,5 +181,6 @@ see
 
 
 ### preview
+![alt tag](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/preview/3.png)
 ![alt tag](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/preview/1.png)
 ![alt tag](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Demo/blob/master/preview/2.png)
