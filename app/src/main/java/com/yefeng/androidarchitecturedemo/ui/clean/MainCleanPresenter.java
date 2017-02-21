@@ -124,8 +124,8 @@ public class MainCleanPresenter implements MainContract.Presenter {
 
     @Override
     public void subscribe() {
-        loadBooks(false);
         initRxBus();
+        loadBooks(false);
     }
 
     private void initRxBus() {

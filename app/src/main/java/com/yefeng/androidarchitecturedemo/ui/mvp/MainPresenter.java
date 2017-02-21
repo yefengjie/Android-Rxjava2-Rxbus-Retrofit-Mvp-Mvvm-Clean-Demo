@@ -162,11 +162,14 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void subscribe() {
-        loadBooks(false);
         initRxBus();
+        loadBooks(false);
     }
 
     private void initRxBus() {
+        if (null == mCompositeDisposable) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         mCompositeDisposable.add(RxBus.getBus()
                 .toObserverable()
                 .subscribeOn(Schedulers.io())
