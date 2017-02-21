@@ -68,7 +68,7 @@ public class BookRepository implements BookDataSource {
                         Collections.sort(books, new Comparator<Book>() {
                             @Override
                             public int compare(Book o1, Book o2) {
-                                return o1.getTitle().compareTo(o2.getTitle());
+                                return Integer.valueOf(o1.getTitle().split(" ")[1]) - Integer.valueOf(o2.getTitle().split(" ")[1]);
                             }
                         });
                         return books;
