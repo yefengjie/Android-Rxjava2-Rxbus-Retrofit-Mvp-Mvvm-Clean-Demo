@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.freedom.yefeng.yfrecyclerview.YfListInterface;
 import com.freedom.yefeng.yfrecyclerview.YfListRecyclerView;
 import com.yefeng.androidarchitecturedemo.R;
+import com.yefeng.androidarchitecturedemo.ui.clean.MainCleanActivity;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainActivity;
 import com.yefeng.support.base.AppInfo;
 
@@ -73,7 +74,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, Object o) {
                 if ("Android Clean Architecture Demo".equals(o.toString())) {
-                    startActivity(new Intent(MenuActivity.this, MainActivity.class));
+                    startActivity(new Intent(MenuActivity.this, MainCleanActivity.class));
                 } else {
                     startActivity(new Intent(MenuActivity.this, MainActivity.class));
                 }

@@ -23,7 +23,7 @@ domain: Holds all business logic. The domain layer starts with classes named use
 
 ### Mvvm
 
-databinding: uses the Data Binding library to display data and bind UI elements to actions.
+databinding: see [databinding branch](https://github.com/yefengfreedom/Android-Rxjava2-Rxbus-Retrofit-Mvp-Mvvm-Clean-Demo/tree/databinding)
 
 ### Libraries
 retrofit,okhttp,retrofit2_rxjava2_adapter
