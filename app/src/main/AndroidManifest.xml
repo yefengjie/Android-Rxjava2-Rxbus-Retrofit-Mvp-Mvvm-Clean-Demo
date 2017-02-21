@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.mvp.MainActivity"
-            android:label="mvp architecture demo"
+            android:name=".ui.menu.MenuActivity"
+            android:label="Android Architecture Demo"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,13 @@
         </activity>
 
         <activity
+            android:name=".ui.mvp.MainActivity"
+            android:label="Mvp Architecture Demo"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name=".ui.clean.MainCleanActivity"
-            android:label="clean architecture demo"
+            android:label="Clean Architecture Demo"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

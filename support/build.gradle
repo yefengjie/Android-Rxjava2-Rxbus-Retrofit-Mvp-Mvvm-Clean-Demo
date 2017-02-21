@@ -45,6 +45,7 @@ dependencies {
     // android
     compile dependencies.appcompat_v7
     compile dependencies.design
+    compile dependencies.card_view
     // glide
     compile dependencies.glide
     // google

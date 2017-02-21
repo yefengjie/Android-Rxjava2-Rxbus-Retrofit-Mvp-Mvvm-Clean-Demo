@@ -52,6 +52,7 @@ ext {
             appcompat_v7             : "com.android.support:appcompat-v7:$androidSupportVersion",
             design                   : "com.android.support:design:$androidSupportVersion",
             recyclerview             : "com.android.support:recyclerview-v7:$androidSupportVersion",
+            card_view                : "com.android.support:cardview-v7:$androidSupportVersion",
 
             // google
             guava                    : "com.google.guava:guava:$guavaVersion",
