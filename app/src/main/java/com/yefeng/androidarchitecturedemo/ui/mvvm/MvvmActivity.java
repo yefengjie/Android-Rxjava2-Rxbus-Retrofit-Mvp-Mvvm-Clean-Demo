@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 
 public class MvvmActivity extends AppCompatActivity implements MainContract.View {
 
-    private SwipeRefreshLayout mSwipeLayout;
     private MainContract.Presenter mPresenter;
     private ActivityMvvmBinding mBinding;
 
@@ -58,7 +56,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void showToast(String msg) {
-        Snackbar.make(mSwipeLayout, msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mBinding.getRoot(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
