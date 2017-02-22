@@ -27,14 +27,14 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
             android:onRefresh="@{actionHandler}">
 
             <com.freedom.yefeng.yfrecyclerview.YfListRecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>

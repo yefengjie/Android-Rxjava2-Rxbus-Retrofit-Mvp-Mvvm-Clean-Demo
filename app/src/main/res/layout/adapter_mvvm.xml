@@ -10,21 +10,20 @@
 
         <variable
             name="actionHandler"
-            type="com.yefeng.androidarchitecturedemo.ui.mvvm.BookItemActionHandler" />
+            type="com.yefeng.androidarchitecturedemo.ui.mvvm.OnBookItemClickListener" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txt_adapter_item"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:onClick="@{()->actionHandler.bookClicked(book)}"
+            android:onClick="@{()->actionHandler.onBookClicked(book)}"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@{book.title}" />

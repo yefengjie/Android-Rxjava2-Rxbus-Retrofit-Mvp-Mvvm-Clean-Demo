@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +41,6 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void init() {
-
         mPresenter = new MvvmPresenter(new BookRepository(new BookRemoteDataSource(), new BookLocalDataSource(), new BookMemoryDataSource()), this);
         mBinding.setActionHandler(mPresenter);
 
@@ -58,7 +58,17 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     private void initAdapter() {
         mBinding.recycler.setHasFixedSize(true);
         mBinding.recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mAdapter = new MvvmAdapter(null, new BookItemActionHandler(this));
+        mAdapter = new MvvmAdapter(null, new OnBookItemClickListener() {
+            @Override
+            public void onBookClicked(Book book) {
+                new AlertDialog.Builder(MvvmActivity.this)
+                        .setTitle("delete book: " + book.getTitle() + " ?")
+                        .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+                        .setPositiveButton("delete", (dialog, which) -> deleteBook(String.valueOf(book.getId())))
+                        .create()
+                        .show();
+            }
+        });
         mBinding.recycler.setAdapter(mAdapter);
         mBinding.recycler.setDivider(R.mipmap.divider);
     }
@@ -89,6 +99,8 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onLoadOk(ArrayList<Book> books) {
         mAdapter.setData(books);
+        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -109,7 +121,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void deleteBook(@NonNull String id) {
-
+        mPresenter.deleteBook(id);
     }
 
     @Override

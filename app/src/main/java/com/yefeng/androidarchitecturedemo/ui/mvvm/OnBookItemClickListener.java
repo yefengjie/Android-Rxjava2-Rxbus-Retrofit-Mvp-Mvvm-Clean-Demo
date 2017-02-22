@@ -17,25 +17,15 @@
 package com.yefeng.androidarchitecturedemo.ui.mvvm;
 
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
-import com.yefeng.androidarchitecturedemo.ui.mvp.MainContract;
 
 
 /**
  * Listens to user actions from the list item in ({@link MvvmActivity}) and redirects them to the
  * Fragment's actions listener.
  */
-public class BookItemActionHandler {
-
-    private MainContract.View mListener;
-
-    public BookItemActionHandler(MainContract.View listener) {
-        mListener = listener;
-    }
-
+public interface OnBookItemClickListener {
     /**
      * Called by the Data Binding library when the row is clicked.
      */
-    public void bookClicked(Book book) {
-        mListener.deleteBook(String.valueOf(book.getId()));
-    }
+    void onBookClicked(Book book);
 }

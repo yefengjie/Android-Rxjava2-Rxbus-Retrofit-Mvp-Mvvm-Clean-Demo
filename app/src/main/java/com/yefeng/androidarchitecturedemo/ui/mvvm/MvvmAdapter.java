@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.annotations.NonNull;
 import com.freedom.yefeng.yfrecyclerview.YfListAdapter;
 import com.freedom.yefeng.yfrecyclerview.YfListInterface;
 import com.freedom.yefeng.yfrecyclerview.YfSimpleViewHolder;
@@ -21,19 +22,17 @@ import java.util.ArrayList;
 
 public class MvvmAdapter extends YfListAdapter<Book> {
 
-    private BookItemActionHandler mActionListener;
+    private OnBookItemClickListener mListener;
 
-    public MvvmAdapter(ArrayList<Book> data, BookItemActionHandler bookItemActionHandler) {
+    public MvvmAdapter(ArrayList<Book> data, OnBookItemClickListener bookItemClickListener) {
         super(data);
-        this.mActionListener = bookItemActionHandler;
+        this.mListener = bookItemClickListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent) {
-        AdapterMvvmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.adapter_mvvm, parent, false);
-        binding.setActionHandler(mActionListener);
-        BindingHolder holder = new BindingHolder(binding.getRoot());
-        holder.setBinding(binding);
+        BindingHolder holder = new BindingHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_mvvm, parent, false));
+        holder.setBookItemActionHandler(mListener);
         return holder;
     }
 
@@ -49,9 +48,7 @@ public class MvvmAdapter extends YfListAdapter<Book> {
 
     @Override
     public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Book book = getData().get(position);
-        ((BindingHolder) holder).getBinding().setBook(book);
-        ((BindingHolder) holder).getBinding().executePendingBindings();
+        ((BindingHolder) holder).bind(mData.get(position));
     }
 
     @Override
@@ -64,14 +61,15 @@ public class MvvmAdapter extends YfListAdapter<Book> {
 
         public BindingHolder(View itemView) {
             super(itemView);
+            binding = DataBindingUtil.bind(itemView);
         }
 
-        public AdapterMvvmBinding getBinding() {
-            return binding;
+        public void setBookItemActionHandler(OnBookItemClickListener bookItemActionHandler) {
+            binding.setActionHandler(bookItemActionHandler);
         }
 
-        public void setBinding(AdapterMvvmBinding binding) {
-            this.binding = binding;
+        public void bind(@NonNull Book book) {
+            binding.setBook(book);
         }
     }
 }
