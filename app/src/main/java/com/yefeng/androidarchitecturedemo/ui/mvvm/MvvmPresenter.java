@@ -48,51 +48,52 @@ public class MvvmPresenter implements MainContract.Presenter {
 
     @Override
     public void loadBooks(boolean forceUpdate) {
-        mBookRepositoty.getBooks(forceUpdate)
-                .compose(new HttpSchedulersTransformer<>())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                        Timber.d("doOnSubscribe()");
-                        mMvvnView.onLoading();
-                    }
-                })
-                .subscribe(new Consumer<List<Book>>() {
-                    @Override
-                    public void accept(List<Book> books) throws Exception {
-                        Timber.d("onNext()");
-                        Timber.e(books.toString());
-                        Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                        mMvvnView.onLoadOk(new ArrayList<>(books));
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                        Timber.e(throwable);
-                        mMvvnView.onLoadError(throwable.getMessage());
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
-                        Timber.d("onComplete()");
-                        mMvvnView.onLoadFinish();
-                    }
-                });
+        mCompositeDisposable.add(
+                mBookRepositoty.getBooks(forceUpdate)
+                        .compose(new HttpSchedulersTransformer<>())
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("doOnSubscribe()");
+                                mMvvnView.onLoading();
+                            }
+                        })
+                        .subscribe(new Consumer<List<Book>>() {
+                            @Override
+                            public void accept(List<Book> books) throws Exception {
+                                Timber.d("onNext()");
+                                Timber.e(books.toString());
+                                Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                mMvvnView.onLoadOk(new ArrayList<>(books));
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.e(throwable);
+                                mMvvnView.onLoadError(throwable.getMessage());
+                            }
+                        }, new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("onComplete()");
+                                mMvvnView.onLoadFinish();
+                            }
+                        }));
     }
 
     @Override
     public void subscribe() {
+        if (null == mCompositeDisposable) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         initRxBus();
         loadBooks(false);
     }
 
     private void initRxBus() {
-        if (null == mCompositeDisposable) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
         mCompositeDisposable.add(RxBus.getBus()
                 .toObserverable()
                 .subscribeOn(Schedulers.io())
@@ -106,6 +107,8 @@ public class MvvmPresenter implements MainContract.Presenter {
 
     @Override
     public void unSubscribe() {
-
+        mMvvnView.onActionOk();
+        mMvvnView.onLoadFinish();
+        mCompositeDisposable.clear();
     }
 }
