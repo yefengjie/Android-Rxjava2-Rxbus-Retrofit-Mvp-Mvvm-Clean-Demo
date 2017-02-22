@@ -27,24 +27,53 @@ import timber.log.Timber;
 
 public class MvvmPresenter implements MainContract.Presenter {
 
-    private final BookRepository mBookRepositoty;
+    private final BookRepository mBookRepository;
     private final MainContract.View mMvvnView;
     private CompositeDisposable mCompositeDisposable;
 
     public MvvmPresenter(BookRepository bookRepository, MainContract.View mvvmActivity) {
-        mBookRepositoty = bookRepository;
+        mBookRepository = bookRepository;
         mMvvnView = mvvmActivity;
     }
 
     @Override
     public void saveBook(@NonNull Book book) {
-
+        mCompositeDisposable.add(
+                mBookRepository.saveBookRx(book)
+                        .compose(new HttpSchedulersTransformer<>())
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("doOnSubscribe()");
+                                mMvvnView.onAction();
+                            }
+                        })
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) throws Exception {
+                                Timber.d("onNext()");
+                                Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                mMvvnView.onActionOk();
+                            }
+                        }, throwable -> {
+                            Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                            Timber.e(throwable);
+                            mMvvnView.onActionError(throwable.getMessage());
+                        }, new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("onComplete()");
+                                mMvvnView.onActionFinish();
+                            }
+                        }));
     }
 
     @Override
     public void deleteBook(@NonNull String id) {
         mCompositeDisposable.add(
-                mBookRepositoty.deleteBookRx(id)
+                mBookRepository.deleteBookRx(id)
                         .compose(new HttpSchedulersTransformer<>())
                         .doOnSubscribe(new Consumer<Subscription>() {
                             @Override
@@ -81,7 +110,7 @@ public class MvvmPresenter implements MainContract.Presenter {
     @Override
     public void loadBooks(boolean forceUpdate) {
         mCompositeDisposable.add(
-                mBookRepositoty.getBooks(forceUpdate)
+                mBookRepository.getBooks(forceUpdate)
                         .compose(new HttpSchedulersTransformer<>())
                         .doOnSubscribe(new Consumer<Subscription>() {
                             @Override

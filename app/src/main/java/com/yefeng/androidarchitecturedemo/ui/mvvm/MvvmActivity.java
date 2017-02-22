@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.freedom.yefeng.yfrecyclerview.YfListMode;
 import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
@@ -47,6 +48,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     private void init() {
         mPresenter = new MvvmPresenter(new BookRepository(new BookRemoteDataSource(), new BookLocalDataSource(), new BookMemoryDataSource()), this);
         mBinding.setActionHandler(mPresenter);
+        mBinding.setMvvmView(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,6 +117,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     public void onLoadError(String msg) {
         mBinding.swipeContainer.setRefreshing(false);
         showToast(msg);
+        mAdapter.changeMode(YfListMode.MODE_ERROR);
     }
 
     @Override
@@ -124,7 +127,14 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void addBook(View view) {
-
+        long lastBookId = 0;
+        if (mAdapter.getData().size() > 0) {
+            lastBookId = mAdapter.getData().get(mAdapter.getData().size() - 1).getId();
+        }
+        Book newBook = new Book();
+        newBook.setId(lastBookId + 1);
+        newBook.setTitle("book " + lastBookId);
+        mPresenter.saveBook(newBook);
     }
 
     @Override
