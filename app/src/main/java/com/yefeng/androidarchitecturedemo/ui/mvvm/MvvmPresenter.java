@@ -43,7 +43,39 @@ public class MvvmPresenter implements MainContract.Presenter {
 
     @Override
     public void deleteBook(@NonNull String id) {
-
+        mCompositeDisposable.add(
+                mBookRepositoty.deleteBookRx(id)
+                        .compose(new HttpSchedulersTransformer<>())
+                        .doOnSubscribe(new Consumer<Subscription>() {
+                            @Override
+                            public void accept(Subscription subscription) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "doOnSubscribe()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("doOnSubscribe()");
+                                mMvvnView.onAction();
+                            }
+                        })
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) throws Exception {
+                                Timber.d("onNext()");
+                                Timber.d("method: %s, thread: %s_%s", "onNext()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                mMvvnView.onActionOk();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onError()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.e(throwable);
+                                mMvvnView.onActionError(throwable.getMessage());
+                            }
+                        }, new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Timber.d("method: %s, thread: %s_%s", "onComplete()", Thread.currentThread().getName(), Thread.currentThread().getId());
+                                Timber.d("onComplete()");
+                                mMvvnView.onActionFinish();
+                            }
+                        }));
     }
 
     @Override

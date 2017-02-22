@@ -1,5 +1,6 @@
 package com.yefeng.androidarchitecturedemo.ui.mvvm;
 
+import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +19,9 @@ import com.yefeng.androidarchitecturedemo.data.source.book.local.BookLocalDataSo
 import com.yefeng.androidarchitecturedemo.data.source.book.memory.BookMemoryDataSource;
 import com.yefeng.androidarchitecturedemo.data.source.book.remote.BookRemoteDataSource;
 import com.yefeng.androidarchitecturedemo.databinding.ActivityMvvmBinding;
+import com.yefeng.androidarchitecturedemo.ui.mvp.Events;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainContract;
+import com.yefeng.support.rxbus.RxBus;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter mPresenter;
     private ActivityMvvmBinding mBinding;
     private MvvmAdapter mAdapter;
+    private ProgressDialog mPd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +57,10 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         initAdapter();
+
+        //init progress
+        mPd = new ProgressDialog(this);
+        mPd.setMessage("please wait...");
     }
 
     private void initAdapter() {
@@ -126,22 +134,23 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onAction() {
-
+        mPd.show();
     }
 
     @Override
     public void onActionOk() {
-
+        RxBus.getBus().send(new Events.ReloadEvent(false));
     }
 
     @Override
     public void onActionError(String msg) {
-
+        mPd.dismiss();
+        showToast(msg);
     }
 
     @Override
     public void onActionFinish() {
-
+        mPd.dismiss();
     }
 
     @Override
