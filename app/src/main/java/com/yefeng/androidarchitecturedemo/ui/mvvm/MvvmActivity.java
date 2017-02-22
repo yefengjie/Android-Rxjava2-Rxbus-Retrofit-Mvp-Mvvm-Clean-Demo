@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
@@ -22,5 +23,11 @@ public class MvvmActivity extends AppCompatActivity {
         ActivityMvvmBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm);
         Book book = new Book(1l, "book 1", "");
         binding.setBook(book);
+        init();
+    }
+
+    private void init() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 }
