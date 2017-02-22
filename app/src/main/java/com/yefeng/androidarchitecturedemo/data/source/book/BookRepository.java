@@ -36,9 +36,9 @@ public class BookRepository implements BookDataSource {
     @NonNull
     private final BookMemoryDataSource mBookMemoryDataSource;
 
-    public BookRepository(@NonNull BookRemoteDataSource bookRemoteDataSource,
-                          @NonNull BookLocalDataSource bookLocalDataSource,
-                          @NonNull BookMemoryDataSource bookMemoryDataSource) {
+    private BookRepository(@NonNull BookRemoteDataSource bookRemoteDataSource,
+                           @NonNull BookLocalDataSource bookLocalDataSource,
+                           @NonNull BookMemoryDataSource bookMemoryDataSource) {
         mBookLocalDataSource = checkNotNull(bookLocalDataSource);
         mBookRemoteDataSource = checkNotNull(bookRemoteDataSource);
         mBookMemoryDataSource = checkNotNull(bookMemoryDataSource);

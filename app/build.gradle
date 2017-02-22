@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -14,15 +13,14 @@ android {
         versionCode globalConfiguration.getAt("androidVersionCode")
         versionName globalConfiguration.getAt("androidVersionName")
         testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
+        jackOptions {
+            enabled true
+        }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dataBinding{
-        enabled true
     }
 
     buildTypes {

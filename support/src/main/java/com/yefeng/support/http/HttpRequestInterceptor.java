@@ -1,7 +1,6 @@
 package com.yefeng.support.http;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.Map;
 
 import okhttp3.HttpUrl;
