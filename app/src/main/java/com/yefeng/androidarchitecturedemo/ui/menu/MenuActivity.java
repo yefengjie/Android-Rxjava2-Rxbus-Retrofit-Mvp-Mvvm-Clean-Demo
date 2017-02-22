@@ -18,6 +18,7 @@ import com.freedom.yefeng.yfrecyclerview.YfListRecyclerView;
 import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.ui.clean.MainCleanActivity;
 import com.yefeng.androidarchitecturedemo.ui.mvp.MainActivity;
+import com.yefeng.androidarchitecturedemo.ui.mvvm.MvvmActivity;
 import com.yefeng.support.base.AppInfo;
 
 import java.util.ArrayList;
@@ -75,6 +76,8 @@ public class MenuActivity extends AppCompatActivity {
             public void onItemClick(View view, Object o) {
                 if ("Android Clean Architecture Demo".equals(o.toString())) {
                     startActivity(new Intent(MenuActivity.this, MainCleanActivity.class));
+                } else if ("Android Mvvm Architecture Demo".equals(o.toString())) {
+                    startActivity(new Intent(MenuActivity.this, MvvmActivity.class));
                 } else {
                     startActivity(new Intent(MenuActivity.this, MainActivity.class));
                 }
