@@ -124,14 +124,14 @@ public class MainCleanPresenter implements MainContract.Presenter {
 
     @Override
     public void subscribe() {
+        if (null == mCompositeDisposable) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         initRxBus();
         loadBooks(false);
     }
 
     private void initRxBus() {
-        if (null == mCompositeDisposable) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
         mCompositeDisposable.add(RxBus.getBus()
                 .toObserverable()
                 .subscribeOn(Schedulers.io())
