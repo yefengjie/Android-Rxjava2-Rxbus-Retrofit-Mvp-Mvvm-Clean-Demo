@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -28,6 +29,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
 
     private MainContract.Presenter mPresenter;
     private ActivityMvvmBinding mBinding;
+    private MvvmAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +52,15 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        initAdapter();
+    }
 
-
-
+    private void initAdapter() {
+        mBinding.recycler.setHasFixedSize(true);
+        mBinding.recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mAdapter = new MvvmAdapter(null, new BookItemActionHandler(this));
+        mBinding.recycler.setAdapter(mAdapter);
+        mBinding.recycler.setDivider(R.mipmap.divider);
     }
 
     private void showToast(String msg) {
@@ -80,7 +88,7 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onLoadOk(ArrayList<Book> books) {
-
+        mAdapter.setData(books);
     }
 
     @Override
