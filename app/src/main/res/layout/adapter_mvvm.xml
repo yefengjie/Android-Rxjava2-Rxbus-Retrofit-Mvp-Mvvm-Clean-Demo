@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</LinearLayout>
+
+    <data>
+
+        <variable
+            name="book"
+            type="com.yefeng.androidarchitecturedemo.data.model.book.Book" />
+
+        <variable
+            name="actionHandler"
+            type="com.yefeng.androidarchitecturedemo.ui.mvvm.BookItemActionHandler" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_adapter_item"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:onClick="@{()->actionHandler.bookClicked(book)}"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@{book.title}" />
+    </LinearLayout>
+</layout>

@@ -51,8 +51,8 @@ public class MvvmActivity extends AppCompatActivity implements MainContract.View
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        Book book = new Book(1l, "book 1", "");
-        mBinding.setBook(book);
+
+
     }
 
     private void showToast(String msg) {
