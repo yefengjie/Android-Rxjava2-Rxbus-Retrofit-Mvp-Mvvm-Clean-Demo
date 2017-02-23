@@ -50,6 +50,8 @@ dependencies {
     compile dependencies.glide
     // google
     compile dependencies.gson
+    compile dependencies.dagger
+    annotationProcessor dependencies.dagger_compiler
     // rx java
     compile dependencies.rxjava
     compile dependencies.rxandroid

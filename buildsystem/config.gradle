@@ -22,6 +22,7 @@ ext {
     //Libraries
     // android
     androidSupportVersion = '25.1.0'
+    daggerVersion = '2.9'
     // google
     gsonVersion = '2.6.2'
     guavaVersion = '21.0'
@@ -57,6 +58,8 @@ ext {
             // google
             guava                    : "com.google.guava:guava:$guavaVersion",
             gson                     : "com.google.code.gson:gson:$gsonVersion",
+            dagger                   : "com.google.dagger:dagger:$daggerVersion",
+            dagger_compiler          : "com.google.dagger:dagger-compiler:$daggerVersion",
 
             // square
             okhttp                   : "com.squareup.okhttp3:okhttp:$okhttpVersion",
