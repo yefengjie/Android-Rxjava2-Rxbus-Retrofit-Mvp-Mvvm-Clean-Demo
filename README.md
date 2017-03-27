@@ -38,6 +38,8 @@ glide
 
 timber
 
+dagger
+
 ### How to run server
 first: make sure you have install django
 
