@@ -3,15 +3,15 @@ apply plugin: 'com.android.library'
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
-    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
-        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
-        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
-        versionCode globalConfiguration.getAt("androidVersionCode")
-        versionName globalConfiguration.getAt("androidVersionName")
-        testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
     }
 
     packagingOptions {
@@ -58,7 +58,7 @@ dependencies {
     // green robot
     compile dependencies.greendao
     //yf recycler view
-    compile dependencies.yf_list_recycler_view
+    compile dependencies.hi_recycler_view
     // square
     compile dependencies.okhttp
     compile dependencies.okio
