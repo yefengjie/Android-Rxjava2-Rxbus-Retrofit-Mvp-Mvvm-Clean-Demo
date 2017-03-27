@@ -11,9 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.freedom.yefeng.yfrecyclerview.YfListInterface;
-import com.freedom.yefeng.yfrecyclerview.YfListMode;
-import com.freedom.yefeng.yfrecyclerview.YfListRecyclerView;
+import com.freedom.yefeng.yfrecyclerview.HiInterface;
+import com.freedom.yefeng.yfrecyclerview.HiMode;
+import com.freedom.yefeng.yfrecyclerview.HiRecyclerView;
 import com.yefeng.androidarchitecturedemo.R;
 import com.yefeng.androidarchitecturedemo.data.model.book.Book;
 import com.yefeng.androidarchitecturedemo.data.source.book.BookRepository;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private MainContract.Presenter mPresenter;
 
-    private YfListRecyclerView mList;
+    private HiRecyclerView mList;
     private MainAdapter mAdapter;
 
     private SwipeRefreshLayout mSwipeLayout;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 android.R.color.holo_red_light);
         mSwipeLayout.setOnRefreshListener(() -> RxBus.getBus().send(new Events.ReloadEvent(true)));
 
-        mList = (YfListRecyclerView) findViewById(R.id.recycler);
+        mList = (HiRecyclerView) findViewById(R.id.recycler);
         mList.setHasFixedSize(true);
         mList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         initAdapter();
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initAdapter() {
         mAdapter = new MainAdapter(null);
-        mAdapter.setOnItemClickListener(new YfListInterface.OnItemClickListener<Book>() {
+        mAdapter.setOnItemClickListener(new HiInterface.OnItemClickListener<Book>() {
             @Override
             public void onItemClick(View view, Book book) {
                 new AlertDialog.Builder(MainActivity.this)
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onLoadError(String msg) {
         mSwipeLayout.setRefreshing(false);
-        mAdapter.changeMode(YfListMode.MODE_ERROR);
+        mAdapter.changeMode(HiMode.MODE_ERROR);
         showToast(msg);
     }
 
